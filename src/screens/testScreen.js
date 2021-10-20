@@ -18,12 +18,14 @@ import {
 import styles from '../styles/style';
 import {useSelector} from 'react-redux';
 import ImageModal from 'react-native-image-modal';
+import {Image, Icon, Avatar, normalize, Card} from 'react-native-elements';
 import Modal from 'react-native-modal';
 import {RadioButton} from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const testScreen = ({navigation, route}) => {
-  const {timeOut, level, gradeName, csgId, csgName, gradeId} = route.params;
+  const {timeOut, level, gradeName, csgId, csgName, gradeId, couresName} =
+    route.params;
   const questionDetails = useSelector(state => state.level.randomQuestions);
   const {width} = Dimensions.get('window');
   const [currentQuestion, setcurrentQuestion] = useState(0);
@@ -256,7 +258,10 @@ const testScreen = ({navigation, route}) => {
   useEffect(() => {
     if (questionDetails.length == 0) {
       Alert.alert('แจ้งเตือน', 'วิชาย่อยนี้ยังไม่มีข้อสอบ', [
-        {text: 'ยืนยัน', onPress: () => navigation.navigate('type')},
+        {
+          text: 'ยืนยัน',
+          onPress: () => navigation.navigate('type', {couresName: couresName}),
+        },
       ]);
     }
   }, [questionDetails]);
@@ -265,7 +270,7 @@ const testScreen = ({navigation, route}) => {
     <SafeAreaView style={{flex: 1}}>
       <ImageBackground
         style={{flex: 1}}
-        source={require('../assets/images/Bg-one.png')}>
+        source={require('../assets/images/Background-Class.png')}>
         <View
           style={{
             padding: 15,
@@ -279,13 +284,13 @@ const testScreen = ({navigation, route}) => {
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <Text
                   numberOfLines={1}
-                  style={[styles.textMedium20, {flex: 1, color: '#FFFFFF'}]}>
+                  style={[styles.textMedium20, {flex: 1, color: '#333333'}]}>
                   {csgName}
                 </Text>
                 <Text
                   style={[
                     styles.textMedium20,
-                    {textAlign: 'center', color: '#FFFFFF'},
+                    {textAlign: 'center', color: '#333333'},
                   ]}>
                   {gradeName}
                 </Text>
@@ -351,11 +356,14 @@ const testScreen = ({navigation, route}) => {
                               modalImageResizeMode="contain"
                               imageBackgroundColor="#ffffff"
                               style={{width: 100, height: 100}}
-                              source={{uri:
-                                'https://api.test.schoolcare.app/getImg/getUploadFile?name=' +
-                                (questionDetails[currentQuestion].examPicQuestion).substr(8)
+                              source={{
+                                uri:
+                                  'https://api.test.schoolcare.app/getImg/getUploadFile?name=' +
+                                  questionDetails[
+                                    currentQuestion
+                                  ].examPicQuestion.substr(8),
                               }}
-                            />                            
+                            />
                           </View>
                         ) : null}
                         <View style={{marginVertical: 5}}>
@@ -415,19 +423,29 @@ const testScreen = ({navigation, route}) => {
                       <TouchableOpacity
                         style={{marginTop: 10}}
                         onPress={() => setcurrentQuestion(currentQuestion - 1)}>
-                        <View style={[pageStyle.buttonNB]}>
-                          <FontAwesome5Icon
-                            name="chevron-left"
-                            size={18}
-                            color="#0036F3D9"
+                        <View style={{alignItems: 'center'}}>
+                          <Image
+                            source={require('../assets/images/icons/Pre-bt.png')}
+                            style={{width: 50, height: 50}}
                           />
-                          <Text
-                            style={[
-                              styles.textMedium16,
-                              pageStyle.textbuttonNB,
-                            ]}>
-                            ก่อนหน้า
-                          </Text>
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              padding: 5,
+                            }}>
+                            <Image
+                              source={require('../assets/images/icons/previous.png')}
+                              style={{width: 15, height: 15}}
+                            />
+                            <Text
+                              style={[
+                                styles.textMedium16,
+                                {marginHorizontal: 5},
+                              ]}>
+                              ก่อนหน้า
+                            </Text>
+                          </View>
                         </View>
                       </TouchableOpacity>
                     )}
@@ -436,33 +454,54 @@ const testScreen = ({navigation, route}) => {
                       <TouchableOpacity
                         style={{marginTop: 10}}
                         onPress={() => SendExamHandler(0)}>
-                        <View style={[pageStyle.buttonNB]}>
-                          <Text
-                            style={[
-                              styles.textMedium16,
-                              pageStyle.textbuttonNB,
-                            ]}>
-                            ส่งคำตอบ
-                          </Text>
+                        <View style={{alignItems: 'center'}}>
+                          <Image
+                            source={require('../assets/images/icons/SendExam.png')}
+                            style={{width: 30, height: 50}}
+                            resizeMode="stretch"
+                          />
+                          <View
+                            style={{
+                              alignItems: 'center',
+                              padding: 5,
+                            }}>
+                            <Text
+                              style={[
+                                styles.textMedium16,
+                                {marginHorizontal: 5},
+                              ]}>
+                              ส่งคำตอบ
+                            </Text>
+                          </View>
                         </View>
                       </TouchableOpacity>
                     ) : (
                       <TouchableOpacity
                         style={{marginTop: 10}}
                         onPress={() => setcurrentQuestion(currentQuestion + 1)}>
-                        <View style={[pageStyle.buttonNB]}>
-                          <Text
-                            style={[
-                              styles.textMedium16,
-                              pageStyle.textbuttonNB,
-                            ]}>
-                            ข้อถัดไป
-                          </Text>
-                          <FontAwesome5Icon
-                            name="chevron-right"
-                            size={18}
-                            color="#0036F3D9"
+                        <View style={{alignItems: 'center'}}>
+                          <Image
+                            source={require('../assets/images/icons/Next-bt.png')}
+                            style={{width: 50, height: 50}}
                           />
+                          <View
+                            style={{
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              padding: 5,
+                            }}>
+                            <Text
+                              style={[
+                                styles.textMedium16,
+                                {marginHorizontal: 5},
+                              ]}>
+                              ข้อถัดไป
+                            </Text>
+                            <Image
+                              source={require('../assets/images/icons/next.png')}
+                              style={{width: 15, height: 15}}
+                            />
+                          </View>
                         </View>
                       </TouchableOpacity>
                     )}
@@ -488,23 +527,34 @@ const testScreen = ({navigation, route}) => {
                         </TouchableOpacity>
                       </View>
                     ) : null
-                  ) : (
+                  ) : showButtonSendExam ? (
                     <View style={{alignItems: 'center'}}>
                       <TouchableOpacity
                         style={{marginTop: 10}}
                         onPress={() => SendExamHandler(0)}>
-                        <View style={[pageStyle.buttonNB]}>
-                          <Text
-                            style={[
-                              styles.textMedium16,
-                              pageStyle.textbuttonNB,
-                            ]}>
-                            ส่งคำตอบ
-                          </Text>
+                        <View style={{alignItems: 'center'}}>
+                          <Image
+                            source={require('../assets/images/icons/SendExam.png')}
+                            style={{width: 30, height: 50}}
+                            resizeMode="stretch"
+                          />
+                          <View
+                            style={{
+                              alignItems: 'center',
+                              padding: 5,
+                            }}>
+                            <Text
+                              style={[
+                                styles.textMedium16,
+                                {marginHorizontal: 5},
+                              ]}>
+                              ส่งคำตอบ
+                            </Text>
+                          </View>
                         </View>
                       </TouchableOpacity>
                     </View>
-                  )}
+                  ) : null}
                 </ScrollView>
               </View>
             </View>

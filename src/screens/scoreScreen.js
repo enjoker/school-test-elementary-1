@@ -16,6 +16,7 @@ import {
 import styles from '../styles/style';
 import {useDispatch, useSelector} from 'react-redux';
 import Modal from 'react-native-modal';
+import {Image, Icon, Avatar, normalize, Card} from 'react-native-elements';
 
 // import Actions
 import * as scoreActions from '../store/actions/score';
@@ -244,9 +245,9 @@ const scoreScreen = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ImageBackground
+     <ImageBackground
         style={{flex: 1}}
-        source={require('../assets/images/Bg-one.png')}>
+        source={require('../assets/images/Background-Class.png')}>
         <View
           style={{
             padding: 15,
@@ -264,13 +265,13 @@ const scoreScreen = ({navigation, route}) => {
                   }}>
                   <Text
                     numberOfLines={1}
-                    style={[styles.textMedium20, {flex: 1, color: '#FFFFFF'}]}>
+                    style={[styles.textMedium20, {flex: 1, color: '#333333'}]}>
                     {csgName}
                   </Text>
                   <Text
                     style={[
                       styles.textMedium20,
-                      {textAlign: 'center', color: '#FFFFFF'},
+                      {textAlign: 'center', color: '#333333'},
                     ]}>
                     {gradeName}
                   </Text>
@@ -286,7 +287,7 @@ const scoreScreen = ({navigation, route}) => {
                       <Text
                         style={[
                           styles.textBold16,
-                          {textAlignVertical: 'center', color: '#FFFFFF'},
+                          {textAlignVertical: 'center', color: '#333333'},
                         ]}>
                         จำนวน
                       </Text>
@@ -296,7 +297,7 @@ const scoreScreen = ({navigation, route}) => {
                       <Text
                         style={[
                           styles.textBold16,
-                          {textAlignVertical: 'center', color: '#FFFFFF'},
+                          {textAlignVertical: 'center', color: '#333333'},
                         ]}>
                         ข้อ
                       </Text>
@@ -305,7 +306,7 @@ const scoreScreen = ({navigation, route}) => {
                       <Text
                         style={[
                           styles.textBold16,
-                          {textAlignVertical: 'center', color: '#FFFFFF'},
+                          {textAlignVertical: 'center', color: '#333333'},
                         ]}>
                         ระดับ
                       </Text>
@@ -345,7 +346,7 @@ const scoreScreen = ({navigation, route}) => {
                       <Text
                         style={[
                           styles.textBold16,
-                          {textAlignVertical: 'center', color: '#FFFFFF'},
+                          {textAlignVertical: 'center', color: '#333333'},
                         ]}>
                         ทำถูก
                       </Text>
@@ -355,7 +356,7 @@ const scoreScreen = ({navigation, route}) => {
                       <Text
                         style={[
                           styles.textBold16,
-                          {textAlignVertical: 'center', color: '#FFFFFF'},
+                          {textAlignVertical: 'center', color: '#333333'},
                         ]}>
                         ข้อ
                       </Text>
@@ -364,7 +365,7 @@ const scoreScreen = ({navigation, route}) => {
                       <Text
                         style={[
                           styles.textBold16,
-                          {textAlignVertical: 'center', color: '#FFFFFF'},
+                          {textAlignVertical: 'center', color: '#333333'},
                         ]}>
                         เหลือเวลา
                       </Text>
@@ -376,7 +377,7 @@ const scoreScreen = ({navigation, route}) => {
                       <Text
                         style={[
                           styles.textBold16,
-                          {textAlignVertical: 'center', color: '#FFFFFF'},
+                          {textAlignVertical: 'center', color: '#333333'},
                         ]}>
                         นาที
                       </Text>
@@ -392,7 +393,7 @@ const scoreScreen = ({navigation, route}) => {
                       <Text
                         style={[
                           styles.textBold16,
-                          {textAlignVertical: 'center', color: '#FFFFFF'},
+                          {textAlignVertical: 'center', color: '#333333'},
                         ]}>
                         ใช้เวลา
                       </Text>
@@ -404,7 +405,7 @@ const scoreScreen = ({navigation, route}) => {
                       <Text
                         style={[
                           styles.textBold16,
-                          {textAlignVertical: 'center', color: '#FFFFFF'},
+                          {textAlignVertical: 'center', color: '#333333'},
                         ]}>
                         นาที
                       </Text>
@@ -413,7 +414,7 @@ const scoreScreen = ({navigation, route}) => {
                       <Text
                         style={[
                           styles.textBold16,
-                          {textAlignVertical: 'center', color: '#FFFFFF'},
+                          {textAlignVertical: 'center', color: '#333333'},
                         ]}>
                         เฉลี่ยข้อละ
                       </Text>
@@ -429,7 +430,7 @@ const scoreScreen = ({navigation, route}) => {
                       <Text
                         style={[
                           styles.textBold16,
-                          {textAlignVertical: 'center', color: '#FFFFFF'},
+                          {textAlignVertical: 'center', color: '#333333'},
                         ]}>
                         นาที
                       </Text>
@@ -732,23 +733,26 @@ const scoreScreen = ({navigation, route}) => {
                             gradeName: gradeName,
                           })
                         }>
-                        <Text
-                          style={[
-                            styles.textBold16,
-                            {
-                              textAlignVertical: 'center',
-                              textAlign: 'center',
-                              padding: 10,
-                              borderRadius: 15,
-                              borderWidth: 1,
-                              width: 155,
-                              borderColor: '#FF834E',
-                              backgroundColor: '#FF56BB99',
-                              color: '#fff',
-                            },
-                          ]}>
-                          ดูอันดับ
-                        </Text>
+                        <View style={{alignItems: 'center'}}>
+                          <Image
+                            source={require('../assets/images/icons/Ranking.png')}
+                            style={{width: 60, height: 50}}
+                            resizeMode="stretch"
+                          />
+                          <View
+                            style={{
+                              alignItems: 'center',
+                              padding: 5,
+                            }}>
+                            <Text
+                              style={[
+                                styles.textMedium16,
+                                {marginHorizontal: 5},
+                              ]}>
+                              ดูอันดับ
+                            </Text>
+                          </View>
+                        </View>
                       </TouchableOpacity>
                     </View>
                   ) : (
@@ -762,23 +766,26 @@ const scoreScreen = ({navigation, route}) => {
                       <TouchableOpacity
                         style={{alignItems: 'center', marginTop: 10}}
                         onPress={() => setshowDetailScore(true)}>
-                        <Text
-                          style={[
-                            styles.textBold16,
-                            {
-                              textAlignVertical: 'center',
-                              textAlign: 'center',
-                              padding: 10,
-                              borderRadius: 15,
-                              borderWidth: 1,
-                              width: 155,
-                              borderColor: '#FF834E',
-                              backgroundColor: '#FF56BB99',
-                              color: '#fff',
-                            },
-                          ]}>
-                          ดูอันดับ
-                        </Text>
+                       <View style={{alignItems: 'center'}}>
+                          <Image
+                            source={require('../assets/images/icons/Ranking.png')}
+                            style={{width: 60, height: 50}}
+                            resizeMode="stretch"
+                          />
+                          <View
+                            style={{
+                              alignItems: 'center',
+                              padding: 5,
+                            }}>
+                            <Text
+                              style={[
+                                styles.textMedium16,
+                                {marginHorizontal: 5},
+                              ]}>
+                              ดูอันดับ
+                            </Text>
+                          </View>
+                        </View>
                       </TouchableOpacity>
                       <TouchableOpacity
                         style={{alignItems: 'center', marginTop: 10}}
@@ -789,23 +796,26 @@ const scoreScreen = ({navigation, route}) => {
                             csgName: csgName,
                           })
                         }>
-                        <Text
-                          style={[
-                            styles.textBold16,
-                            {
-                              textAlignVertical: 'center',
-                              textAlign: 'center',
-                              padding: 10,
-                              borderRadius: 15,
-                              borderWidth: 1,
-                              width: 155,
-                              borderColor: '#FF4EB8',
-                              backgroundColor: '#F9FE07BF',
-                              color: '#0036F3',
-                            },
-                          ]}>
-                          ทำอีกครั้ง
-                        </Text>
+                       <View style={{alignItems: 'center'}}>
+                          <Image
+                            source={require('../assets/images/icons/ExamOneMore.png')}
+                            style={{width: 60, height: 50}}
+                            resizeMode="stretch"
+                          />
+                          <View
+                            style={{
+                              alignItems: 'center',
+                              padding: 5,
+                            }}>
+                            <Text
+                              style={[
+                                styles.textMedium16,
+                                {marginHorizontal: 5},
+                              ]}>
+                              ทำอีกครั้ง
+                            </Text>
+                          </View>
+                        </View>
                       </TouchableOpacity>
                     </View>
                   )}

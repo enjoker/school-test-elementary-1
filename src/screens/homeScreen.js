@@ -16,7 +16,7 @@ import {
 import styles from '../styles/style';
 import {Input} from 'react-native-elements';
 import {FlatGrid} from 'react-native-super-grid';
-import {getCoures} from '../functions/functions'
+import {getCoures} from '../functions/functions';
 
 // import รูปบ้าน
 import HomeIcon from '../assets/images/icons/HomeIcon.svg';
@@ -25,102 +25,63 @@ import * as subGradeActions from '../store/actions/subGrade';
 
 const homeScreen = ({navigation}) => {
   const dispatch = useDispatch();
-  //const [couresData, setcouresData] = useState([])
+  const [couresData, setcouresData] = useState([]);
   // const couresData = useSelector((state: any) => state.coures.showcoures);
-  // console.log(couresData); 
-  const couresData = useSelector(state => state.coures.showcoures);
-  const [hasError, setError] = useState(false);
+  console.log(couresData);
+  //const couresData = useSelector(state => state.coures.showcoures);
+  //console.log(couresData);
+  //const getCouresData = useCallback(() => {
+  //  dispatch(couresActions.GETCouresData());
+  //}, []);
+  //useEffect(() => {
+  //  getCouresData();
+  //}, []);
+
+  const GetCouresData = async () => {
+    const res = await fetch(getCoures(), {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    res.json().then(res => setcouresData(res));
+
+    // const resData = await res.json();
+    // await setNewsData(resData)
+  };
+  useEffect(() => {
+    GetCouresData();
+  }, []);
   const ContainerContent = () => {
-    const [items, setItems] = useState([
-      {
-        name: 'ป.1',
-        code: '#028c6a',
-        grade: 1,
-      },
-      {
-        name: 'ป.2',
-        code: '#1FA246',
-        grade: 35,
-      },
-      {
-        name: 'ป.3',
-        code: '#FFA73F',
-        grade: 36,
-      },
-      {
-        name: 'ป.4',
-        code: '#2E59F1',
-        grade: 37,
-      },
-      {
-        name: 'ป.5',
-        code: '#FF4E4E',
-        grade: 38,
-      },
-      {
-        name: 'ป.6',
-        code: '#B13AFA',
-        grade: 39,
-      },
-    ]);
-    const gradeHandler = async classSelected => {
+    const gradeHandler = async (couresSelected, couresName) => {
       let action;
-      if (classSelected !== 0) {
-        action = subGradeActions.getSub('8', classSelected);
+      if (couresSelected !== 0) {
+        action = subGradeActions.getSub(couresSelected, 1);
         try {
           await dispatch(action);
-          navigation.navigate('type', {});
+          navigation.navigate('type', {couresName: couresName});
         } catch (e) {
           Alert.alert('แจ้งเตือน', e.message);
         }
       } else {
-        console.log(classSelected);
+        console.log(couresSelected);
       }
     };
-    
-  const getCouresData = useCallback(() => {
-    dispatch(couresActions.GETCouresData())
-  }, [])
-
-  useEffect(() => {
-    getCouresData()
-  }, [])
-    {/* const GetCouresData = async () => {
-      const res = await fetch(getCoures(), {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      res
-        .json()
-        .then(res => setcouresData(res))
-        .catch(err => setError(err));
-      // const resData = await res.json();
-      // await setNewsData(resData)
-    };
-
-    useEffect(() => {
-      GetCouresData();
-    }, []);
-    */}
-
-   
-
     return (
       <View style={{flex: 1, justifyContent: 'flex-start'}}>
         <Text
           style={[
             styles.textMedium34,
-            {textAlign: 'center', color: '#FFFFFF'},
+            {textAlign: 'center', color: '#333333'},
           ]}>
-          ภาษาไทย
+          ประถมศึกษาปีที่ 1
         </Text>
         <View
           style={{
             margin: 5,
             flex: 2,
           }}>
+          {/* 
           <ScrollView>
             <View style={{flex: 1, flexDirection: 'row'}}>
               <TouchableOpacity
@@ -148,16 +109,17 @@ const homeScreen = ({navigation}) => {
               </TouchableOpacity>
             </View>
           </ScrollView>
-          {/* 
+            */}
+
           <FlatGrid
             itemDimension={120}
             maxDimension={1000}
-            data={items}
+            data={couresData}
             style={{marginTop: 5, flex: 1}}
             spacing={10}
             renderItem={({item}) => (
               <TouchableOpacity
-                onPress={() => gradeHandler(item.grade)}
+                onPress={() => gradeHandler(item.csubId, item.csubName)}
                 style={{
                   flex: 1,
                   borderRadius: 8,
@@ -180,18 +142,17 @@ const homeScreen = ({navigation}) => {
                         height: 120,
                       },
                     ]}>
-                    {item.name}
+                    {item.csubName}
                   </Text>
                 </ImageBackground>
               </TouchableOpacity>
             )}
           />
-          */}
         </View>
         <Text
           style={[
             styles.textBold18,
-            {flex: 0.4, textAlign: 'center', color: '#FFFFFF'},
+            {flex: 0.4, textAlign: 'center', color: '#333333'},
           ]}>
           กลับมาหน้าหลักนี้โดยการกดรูปบ้าน {'\n'}
           <HomeIcon width={26} height={26} /> ด้านบนขวาของแต่ละหน้า
@@ -217,7 +178,7 @@ const homeScreen = ({navigation}) => {
     <SafeAreaView style={{flex: 1}}>
       <ImageBackground
         style={{flex: 1}}
-        source={require('../assets/images/Bg-one.png')}>
+        source={require('../assets/images/Background-Class.png')}>
         <View
           style={{
             padding: 15,

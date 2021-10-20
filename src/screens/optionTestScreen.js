@@ -19,7 +19,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import * as levelTestActions from '../store/actions/levelTest';
 
 const optionTestScreen = ({navigation, route}) => {
-  const {subid, gradeid, csgName} = route.params;
+  const {subid, gradeid, csgName, couresName} = route.params;
   const [questionSelected, setquestionSelected] = useState(0);
   const [levelSelected, setlevelSelected] = useState(0);
   const [timeOut, settimeOut] = useState('-');
@@ -52,6 +52,7 @@ const optionTestScreen = ({navigation, route}) => {
             csgId: subid,
             csgName: csgName,
             gradeId: gradeid,
+            couresName: couresName,
           });
         } catch (e) {
           Alert.alert('แจ้งเตือน', e.message);
@@ -126,7 +127,25 @@ const optionTestScreen = ({navigation, route}) => {
         csgName == 'สอบปลายภาคเรียนที่ 2' ||
         csgName == 'ภาษาไทย-สอบปลายภาคเรียน' ||
         csgName == 'ภาษาไทย-สอบปลายภาคเรียนที่ 1' ||
-        csgName == 'ภาษาไทย-สอบปลายภาคเรียนที่ 2'
+        csgName == 'ภาษาไทย-สอบปลายภาคเรียนที่ 2' ||
+        csgName == 'อังกฤษ-สอบปลายภาคเรียน' ||
+        csgName == 'อังกฤษ-สอบปลายภาคเรียนที่ 1' ||
+        csgName == 'อังกฤษ-สอบปลายภาคเรียนที่ 2' ||
+        csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียน' ||
+        csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียนที่ 1' ||
+        csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียนที่ 2' ||
+        csgName == 'คณิตศาสตร์-สอบปลายภาคเรียน' ||
+        csgName == 'คณิตศาสตร์-สอบปลายภาคเรียนที่ 1' ||
+        csgName == 'คณิตศาสตร์-สอบปลายภาคเรียนที่ 2' ||
+        csgName == 'สังคม-สอบปลายภาคเรียน' ||
+        csgName == 'สังคม-สอบปลายภาคเรียนที่ 1' ||
+        csgName == 'สังคม-สอบปลายภาคเรียนที่ 2' ||
+        csgName == 'วิทยาศาสตร์-สอบปลายภาคเรียน' ||
+        csgName == 'วิทยาศาสตร์-สอบปลายภาคเรียนที่ 1' ||
+        csgName == 'วิทยาศาสตร์-สอบปลายภาคเรียนที่ 2' ||
+        csgName == 'ประวัติศาสตร์-สอบปลายภาคเรียน' ||
+        csgName == 'ประวัติศาสตร์-สอบปลายภาคเรียนที่ 1' ||
+        csgName == 'ประวัติศาสตร์-สอบปลายภาคเรียนที่ 2'
       ) {
         setshowLevel(false);
         setlevelSelected(3);
@@ -137,13 +156,13 @@ const optionTestScreen = ({navigation, route}) => {
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
           <Text
             numberOfLines={1}
-            style={[styles.textMedium20, {flex: 1, color: '#FFFFFF'}]}>
-            {csgName}            
+            style={[styles.textMedium20, {flex: 1, color: '#333333'}]}>
+            {csgName}
           </Text>
           <Text
             style={[
               styles.textMedium20,
-              {textAlign: 'center', color: '#FFFFFF'},
+              {textAlign: 'center', color: '#333333'},
             ]}>
             {gradeName}
           </Text>
@@ -247,7 +266,11 @@ const optionTestScreen = ({navigation, route}) => {
           <Text
             style={[
               styles.textRegular16,
-              {textAlignVertical: 'center', marginHorizontal: 5, color: '#fff'},
+              {
+                textAlignVertical: 'center',
+                marginHorizontal: 5,
+                color: '#333333',
+              },
             ]}>
             มีเวลาทำโดยประมาณ
           </Text>
@@ -272,7 +295,11 @@ const optionTestScreen = ({navigation, route}) => {
           <Text
             style={[
               styles.textRegular16,
-              {textAlignVertical: 'center', marginHorizontal: 5, color: '#fff'},
+              {
+                textAlignVertical: 'center',
+                marginHorizontal: 5,
+                color: '#333333',
+              },
             ]}>
             นาที
           </Text>
@@ -301,26 +328,29 @@ const optionTestScreen = ({navigation, route}) => {
             </Text>
           </View>
         </TouchableOpacity>
+       
         <TouchableOpacity
-          style={{alignItems: 'flex-start', marginTop: 10}}
-          onPress={() => navigation.navigate('type')}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              padding: 5,
-              borderRadius: 15,
-              borderWidth: 1,
-              borderColor: '#0036F3',
-              backgroundColor: '#FFF',
-            }}>
+          style={{alignItems: 'flex-start', marginTop: 20 ,width:100}}
+          onPress={() => navigation.navigate('type', {couresName: couresName})}>
+          <View style={{alignItems: 'center'}}>
             <Image
-              source={require('../assets/images/icons/previous.png')}
-              style={{width: 15, height: 15}}
+              source={require('../assets/images/icons/Pre-bt.png')}
+              style={{width: 50, height: 50}}
             />
-            <Text style={[styles.textMedium16, {marginHorizontal: 5}]}>
-              ย้อนกลับ
-            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                padding: 5,
+              }}>
+              <Image
+                source={require('../assets/images/icons/previous.png')}
+                style={{width: 15, height: 15}}
+              />
+              <Text style={[styles.textMedium16, {marginHorizontal: 5}]}>
+                ย้อนกลับ
+              </Text>
+            </View>
           </View>
         </TouchableOpacity>
       </View>
@@ -330,7 +360,7 @@ const optionTestScreen = ({navigation, route}) => {
     <SafeAreaView style={{flex: 1}}>
       <ImageBackground
         style={{flex: 1}}
-        source={require('../assets/images/Bg-one.png')}>
+        source={require('../assets/images/Background-Class.png')}>
         <View
           style={{
             padding: 15,
