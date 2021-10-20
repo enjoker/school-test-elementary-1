@@ -18,16 +18,35 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import * as levelTestActions from '../store/actions/levelTest';
 
+
+
 const optionTestScreen = ({navigation, route}) => {
   const {subid, gradeid, csgName, couresName} = route.params;
+  const from = route.params.from;
   const [questionSelected, setquestionSelected] = useState(0);
   const [levelSelected, setlevelSelected] = useState(0);
   const [timeOut, settimeOut] = useState('-');
   const [gradeName, setgradeName] = useState('');
   const [showLevel, setshowLevel] = useState(true);
+  console.log(timeOut + '/' + levelSelected + '/' + gradeName+ '/' + subid + '/' + csgName+ '/' + gradeid + '/' + couresName);
+  const dispatch = useDispatch();  
+  from === 'scoreScreen' || from === 'rankingScreen' ? // clear stack ถ้ามาจากหน้า score หรือ ranking
+    navigation.reset({
+      index: 1,
+      routes: [
+        { name: 'home' },
+        {
+          name: 'optionTest',
+          params: {
+            subid: subid,
+            gradeid: gradeid,
+            csgName: csgName,
+          },
+        }],
+    })
+    : null
 
-  const dispatch = useDispatch();
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const ContainerContent = () => {
     const optionTestHandler = async () => {
@@ -328,9 +347,9 @@ const optionTestScreen = ({navigation, route}) => {
             </Text>
           </View>
         </TouchableOpacity>
-       
+
         <TouchableOpacity
-          style={{alignItems: 'flex-start', marginTop: 20 ,width:100}}
+          style={{alignItems: 'flex-start', marginTop: 20, width: 100}}
           onPress={() => navigation.navigate('type', {couresName: couresName})}>
           <View style={{alignItems: 'center'}}>
             <Image

@@ -18,7 +18,7 @@ import * as scoreActions from '../store/actions/score';
 
 const rankingScreen = ({navigation, route}) => {
   const dispatch = useDispatch();
-  const {csgId, gradeId, csgName, gradeName} = route.params;
+  const {csgId, gradeId, csgName, gradeName,couresName} = route.params;
   const {width} = Dimensions.get('window');
   const user = useSelector(state => state.score.user);
   const reportData = useSelector(state => state.score.showRanking);
@@ -328,6 +328,7 @@ const rankingScreen = ({navigation, route}) => {
                         subid: csgId,
                         gradeid: gradeId,
                         csgName: csgName,
+                        from: 'rankingScreen'
                       })
                     }>
                     <View style={{alignItems: 'center'}}>

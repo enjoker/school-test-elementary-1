@@ -31,8 +31,7 @@ const testScreen = ({navigation, route}) => {
   const [currentQuestion, setcurrentQuestion] = useState(0);
   const [choiceSelected, setchoiceSelected] = useState([]);
   const [choiceUnAnswered, setchoiceUnAnswered] = useState([]);
-  const [value, setValue] = useState();
-  const [value2, setValue2] = useState();
+  const [value, setValue] = useState();  
   const [seconds, setseconds] = useState(timeOut * 60);
   const [secondsPlus, setsecondsPlus] = useState(0 * 60);
   const [showOvertimePlus, setshowOvertimePlus] = useState(false);
@@ -42,7 +41,8 @@ const testScreen = ({navigation, route}) => {
   const [isIncompleteVisible, setIncompleteVisible] = useState(false);
   const [showButtonSendExam, setshowButtonSendExam] = useState(false);
   const [numberTest, setnumberTest] = useState();
-
+  
+console.log(value);
   const findChoice = item => {
     let choice = null;
     switch (true) {

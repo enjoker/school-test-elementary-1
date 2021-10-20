@@ -35,6 +35,7 @@ const scoreScreen = ({navigation, route}) => {
     csgName,
     gradeId,
     overTimePlus,
+    couresName,
   } = route.params;
   const timeUsed = timeOut - timeLeft + overTimePlus;
   const timePlus = timeLeft - overTimePlus;
@@ -59,7 +60,7 @@ const scoreScreen = ({navigation, route}) => {
           correctAnswerCount += 1;
         } else if (choiceSelected[index].choiceValue !== 'หมดเวลา') {
           wrongAnswerCount += 1;
-        }        
+        }
       })
     : null;
 
@@ -72,10 +73,7 @@ const scoreScreen = ({navigation, route}) => {
     let rankingScore = 0;
     const levelBonus =
       level === 1 ? 1 : level === 3 ? 1.1 : level === 4 ? 1.2 : null;
-    if (
-      correctAnswerCount >= (questionCount * 80) / 100 &&
-      overTimePlus == 0
-    ) {
+    if (correctAnswerCount >= (questionCount * 80) / 100 && overTimePlus == 0) {
       rankingScore =
         Math.round(
           (Math.round(correctAnswerCount * levelBonus * 1000) / 1000 +
@@ -133,7 +131,25 @@ const scoreScreen = ({navigation, route}) => {
       csgName == 'สอบปลายภาคเรียนที่ 2' ||
       csgName == 'ภาษาไทย-สอบปลายภาคเรียน' ||
       csgName == 'ภาษาไทย-สอบปลายภาคเรียนที่ 1' ||
-      csgName == 'ภาษาไทย-สอบปลายภาคเรียนที่ 2'
+      csgName == 'ภาษาไทย-สอบปลายภาคเรียนที่ 2' ||
+      csgName == 'อังกฤษ-สอบปลายภาคเรียน' ||
+      csgName == 'อังกฤษ-สอบปลายภาคเรียนที่ 1' ||
+      csgName == 'อังกฤษ-สอบปลายภาคเรียนที่ 2' ||
+      csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียน' ||
+      csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียนที่ 1' ||
+      csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียนที่ 2' ||
+      csgName == 'คณิตศาสตร์-สอบปลายภาคเรียน' ||
+      csgName == 'คณิตศาสตร์-สอบปลายภาคเรียนที่ 1' ||
+      csgName == 'คณิตศาสตร์-สอบปลายภาคเรียนที่ 2' ||
+      csgName == 'สังคม-สอบปลายภาคเรียน' ||
+      csgName == 'สังคม-สอบปลายภาคเรียนที่ 1' ||
+      csgName == 'สังคม-สอบปลายภาคเรียนที่ 2' ||
+      csgName == 'วิทยาศาสตร์-สอบปลายภาคเรียน' ||
+      csgName == 'วิทยาศาสตร์-สอบปลายภาคเรียนที่ 1' ||
+      csgName == 'วิทยาศาสตร์-สอบปลายภาคเรียนที่ 2' ||
+      csgName == 'ประวัติศาสตร์-สอบปลายภาคเรียน' ||
+      csgName == 'ประวัติศาสตร์-สอบปลายภาคเรียนที่ 1' ||
+      csgName == 'ประวัติศาสตร์-สอบปลายภาคเรียนที่ 2'
     ) {
       setshowLevel(false);
     }
@@ -245,7 +261,7 @@ const scoreScreen = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-     <ImageBackground
+      <ImageBackground
         style={{flex: 1}}
         source={require('../assets/images/Background-Class.png')}>
         <View
@@ -766,7 +782,7 @@ const scoreScreen = ({navigation, route}) => {
                       <TouchableOpacity
                         style={{alignItems: 'center', marginTop: 10}}
                         onPress={() => setshowDetailScore(true)}>
-                       <View style={{alignItems: 'center'}}>
+                        <View style={{alignItems: 'center'}}>
                           <Image
                             source={require('../assets/images/icons/Ranking.png')}
                             style={{width: 60, height: 50}}
@@ -794,9 +810,11 @@ const scoreScreen = ({navigation, route}) => {
                             subid: csgId,
                             gradeid: gradeId,
                             csgName: csgName,
+                            couresName:couresName,
+                            from: 'scoreScreen'
                           })
                         }>
-                       <View style={{alignItems: 'center'}}>
+                        <View style={{alignItems: 'center'}}>
                           <Image
                             source={require('../assets/images/icons/ExamOneMore.png')}
                             style={{width: 60, height: 50}}
