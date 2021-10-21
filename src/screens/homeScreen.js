@@ -81,36 +81,43 @@ const homeScreen = ({navigation}) => {
             margin: 5,
             flex: 2,
           }}>
-          {/* 
           <ScrollView>
-            <View style={{flex: 1, flexDirection: 'row'}}>
-              <TouchableOpacity
-                onPress={() => gradeHandler(1)}
-                style={{
-                  flex: 1,
-                  borderRadius: 8,
-                  margin: 5,
-                }}>
-                <ImageBackground
-                  style={{flex: 1, justifyContent: 'center'}}
-                  source={require('../assets/images/bg-coures.png')}
-                  resizeMode="stretch">
-                  <Text
-                    style={[
-                      styles.textBold22,
-                      {
-                        textAlign: 'center',
-                        textAlignVertical: 'center',
-                        color: '#fff',
-                        fontWeight: '600',
-                      },
-                    ]}>yoyo</Text>
-                </ImageBackground>
-              </TouchableOpacity>
+            <View style={{flex: 1}}>
+              {couresData.map(item => {
+                return (
+                  <TouchableOpacity
+                    key={item.csubId}
+                    onPress={() => gradeHandler(item.csubId, item.csubName)}
+                    style={{
+                      flex: 1,
+                      borderRadius: 8,
+                      margin: 5,
+                      height: 70,
+                    }}>
+                    <ImageBackground
+                      style={{flex: 1.5, justifyContent: 'center'}}
+                      source={require('../assets/images/bg-Artboard.png')}
+                      resizeMode="stretch">
+                      <Text
+                        style={[
+                          styles.textBold18,
+                          {
+                            textAlign: 'center',
+                            textAlignVertical: 'center',
+                            color: '#fff',
+                            fontWeight: '600',
+                          },
+                        ]}>
+                        {item.csubName}
+                      </Text>
+                    </ImageBackground>
+                  </TouchableOpacity>
+                );
+              })}
             </View>
           </ScrollView>
-            */}
 
+          {/*
           <FlatGrid
             itemDimension={120}
             maxDimension={320}
@@ -148,6 +155,7 @@ const homeScreen = ({navigation}) => {
               </TouchableOpacity>
             )}
           />
+          */}
         </View>
         <Text
           style={[

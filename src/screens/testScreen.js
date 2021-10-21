@@ -652,7 +652,7 @@ console.log(value);
                     setModalVisible(false);
                   }}>
                   <Text style={[styles.textLight18, pageStyle.overTimeRight]}>
-                    ทำต่อ
+                    กดดูโฆษณารับสิทธิ์ต่อเวลา
                   </Text>
                 </TouchableOpacity>
               </View>

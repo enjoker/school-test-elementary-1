@@ -38,41 +38,47 @@ const typeScreen = ({navigation, route}) => {
           ]}>
           {couresName}
         </Text>
-        <View style={{flex: 1, alignItems: 'center'}}>
-          {SubGradeDetail !== null
-            ? SubGradeDetail.map((item, index) => {
-                return (
-                  <TouchableOpacity
-                    key={item.csg_id}
-                    style={{marginVertical: 10}}
-                    onPress={() =>
-                      navigation.navigate('optionTest', {
-                        subid: item.csg_id,
-                        gradeid: item.cgd_id,
-                        csgName: item.csg_name,
-                        couresName :couresName
-                      })
-                    }>
-                    <Text
-                      style={[
-                        styles.textRegular30,
-                        {
-                          width: wp('80%'),
-                          textAlign: 'center',
-                          textAlignVertical: 'center',
-                          padding: 10,
-                          borderRadius: 8,
-                          color: '#fff',
-                          backgroundColor: colorBox[index],
-                        },
-                      ]}>
-                      {item.csg_name}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })
-            : null}
-        </View>
+        <ScrollView>
+          <View style={{flex: 1, alignItems: 'center'}}>
+            {SubGradeDetail !== null
+              ? SubGradeDetail.map((item, index) => {
+                  return (
+                    <TouchableOpacity
+                      key={item.csg_id}
+                      style={{marginVertical: 10, height: 70}}
+                      onPress={() =>
+                        navigation.navigate('optionTest', {
+                          subid: item.csg_id,
+                          gradeid: item.cgd_id,
+                          csgName: item.csg_name,
+                          couresName: couresName,
+                        })
+                      }>
+                      <ImageBackground
+                        style={{flex: 1.5, justifyContent: 'center'}}
+                        source={require('../assets/images/bg-Artboard.png')}
+                        resizeMode="stretch">
+                        <Text
+                          style={[
+                            styles.textBold18,
+                            {
+                              width: wp('80%'),
+                              textAlign: 'center',
+                              textAlignVertical: 'center',
+                              padding: 10,
+                              borderRadius: 8,
+                              color: '#fff',
+                            },
+                          ]}>
+                          {item.csg_name}
+                        </Text>
+                      </ImageBackground>
+                    </TouchableOpacity>
+                  );
+                })
+              : null}
+          </View>
+        </ScrollView>
       </View>
     );
   };
