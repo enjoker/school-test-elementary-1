@@ -113,7 +113,7 @@ const homeScreen = ({navigation}) => {
 
           <FlatGrid
             itemDimension={120}
-            maxDimension={1000}
+            maxDimension={320}
             data={couresData}
             style={{marginTop: 5, flex: 1}}
             spacing={10}

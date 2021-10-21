@@ -132,9 +132,9 @@ const scoreScreen = ({navigation, route}) => {
       csgName == 'ภาษาไทย-สอบปลายภาคเรียน' ||
       csgName == 'ภาษาไทย-สอบปลายภาคเรียนที่ 1' ||
       csgName == 'ภาษาไทย-สอบปลายภาคเรียนที่ 2' ||
-      csgName == 'อังกฤษ-สอบปลายภาคเรียน' ||
-      csgName == 'อังกฤษ-สอบปลายภาคเรียนที่ 1' ||
-      csgName == 'อังกฤษ-สอบปลายภาคเรียนที่ 2' ||
+      csgName == 'ภาษาอังกฤษ-สอบปลายภาคเรียน' ||
+      csgName == 'ภาษาอังกฤษ-สอบปลายภาคเรียนที่ 1' ||
+      csgName == 'ภาษาอังกฤษ-สอบปลายภาคเรียนที่ 2' ||
       csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียน' ||
       csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียนที่ 1' ||
       csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียนที่ 2' ||
@@ -810,8 +810,8 @@ const scoreScreen = ({navigation, route}) => {
                             subid: csgId,
                             gradeid: gradeId,
                             csgName: csgName,
-                            couresName:couresName,
-                            from: 'scoreScreen'
+                            couresName: couresName,
+                            from: 'scoreScreen',
                           })
                         }>
                         <View style={{alignItems: 'center'}}>

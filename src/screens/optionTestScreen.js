@@ -18,8 +18,6 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import * as levelTestActions from '../store/actions/levelTest';
 
-
-
 const optionTestScreen = ({navigation, route}) => {
   const {subid, gradeid, csgName, couresName} = route.params;
   const from = route.params.from;
@@ -28,25 +26,40 @@ const optionTestScreen = ({navigation, route}) => {
   const [timeOut, settimeOut] = useState('-');
   const [gradeName, setgradeName] = useState('');
   const [showLevel, setshowLevel] = useState(true);
-  console.log(timeOut + '/' + levelSelected + '/' + gradeName+ '/' + subid + '/' + csgName+ '/' + gradeid + '/' + couresName);
-  const dispatch = useDispatch();  
-  from === 'scoreScreen' || from === 'rankingScreen' ? // clear stack ถ้ามาจากหน้า score หรือ ranking
-    navigation.reset({
-      index: 1,
-      routes: [
-        { name: 'home' },
-        {
-          name: 'optionTest',
-          params: {
-            subid: subid,
-            gradeid: gradeid,
-            csgName: csgName,
+  console.log(
+    timeOut +
+      '/' +
+      levelSelected +
+      '/' +
+      gradeName +
+      '/' +
+      subid +
+      '/' +
+      csgName +
+      '/' +
+      gradeid +
+      '/' +
+      couresName,
+  );
+  const dispatch = useDispatch();
+  from === 'scoreScreen' || from === 'rankingScreen' // clear stack ถ้ามาจากหน้า score หรือ ranking
+    ? navigation.reset({
+        index: 1,
+        routes: [
+          {name: 'home'},
+          {
+            name: 'optionTest',
+            params: {
+              subid: subid,
+              gradeid: gradeid,
+              csgName: csgName,
+            },
           },
-        }],
-    })
-    : null
+        ],
+      })
+    : null;
 
-  useEffect(() => { }, []);
+  useEffect(() => {}, []);
 
   const ContainerContent = () => {
     const optionTestHandler = async () => {
@@ -147,9 +160,9 @@ const optionTestScreen = ({navigation, route}) => {
         csgName == 'ภาษาไทย-สอบปลายภาคเรียน' ||
         csgName == 'ภาษาไทย-สอบปลายภาคเรียนที่ 1' ||
         csgName == 'ภาษาไทย-สอบปลายภาคเรียนที่ 2' ||
-        csgName == 'อังกฤษ-สอบปลายภาคเรียน' ||
-        csgName == 'อังกฤษ-สอบปลายภาคเรียนที่ 1' ||
-        csgName == 'อังกฤษ-สอบปลายภาคเรียนที่ 2' ||
+        csgName == 'ภาษาอังกฤษ-สอบปลายภาคเรียน' ||
+        csgName == 'ภาษาอังกฤษ-สอบปลายภาคเรียนที่ 1' ||
+        csgName == 'ภาษาอังกฤษ-สอบปลายภาคเรียนที่ 2' ||
         csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียน' ||
         csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียนที่ 1' ||
         csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียนที่ 2' ||

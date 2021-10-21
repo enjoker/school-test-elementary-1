@@ -40,7 +40,7 @@ const testScreen = ({navigation, route}) => {
   const [isConfirmExamVisible, setConfirmExamVisible] = useState(false);
   const [isIncompleteVisible, setIncompleteVisible] = useState(false);
   const [showButtonSendExam, setshowButtonSendExam] = useState(false);
-  const [numberTest, setnumberTest] = useState();
+  
   
 console.log(value);
   const findChoice = item => {
@@ -185,8 +185,7 @@ console.log(value);
     }
   };
   const warpExam = async () => {
-    let test = [];
-    let yoyo = 0;
+    let test = [];    
     for (let k = 0; k < questionDetails.length; k++) {
       //console.log(choiceSelected);
       choiceSelected.sort((a, b) => (a.questionId > b.questionId ? 1 : -1));
@@ -209,9 +208,7 @@ console.log(value);
     //console.log(choiceSelected)
     if (choiceUnAnswered[0].choiceValue == false) {
       //console.log(choiceUnAnswered[0].questionId);
-      setcurrentQuestion(choiceUnAnswered[0].questionId);
-      yoyo = choiceUnAnswered[1].questionId;
-      setnumberTest(yoyo);
+      setcurrentQuestion(choiceUnAnswered[0].questionId);      
     }
     setshowButtonSendExam(true);
   };
@@ -220,7 +217,7 @@ console.log(value);
     if (showButtonSendExam == true) {
       warpExam();
     }
-  }, [choiceUnAnswered, choiceSelected, numberTest]);
+  }, [choiceUnAnswered, choiceSelected]);
 
   useEffect(() => {
     findIndexChoice();
