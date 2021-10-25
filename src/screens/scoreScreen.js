@@ -18,6 +18,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import Modal from 'react-native-modal';
 import {Image, Icon, Avatar, normalize, Card} from 'react-native-elements';
 
+//import Icon
+import ArrowIcon from '../assets/images/icons/arrow.svg';
+import MailIcon from '../assets/images/icons/mail.svg';
 // import Actions
 import * as scoreActions from '../store/actions/score';
 
@@ -244,8 +247,8 @@ const scoreScreen = ({navigation, route}) => {
               </Text>
             </View>
           ) : null}
-
-          <View>
+         
+          <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
             <TouchableOpacity
               style={{alignItems: 'center', marginVertical: 10}}
               onPress={() => setmodalVisible(false)}>
@@ -253,7 +256,29 @@ const scoreScreen = ({navigation, route}) => {
                 กลับ
               </Text>
             </TouchableOpacity>
+             {/* การแจ้งเฉลยผิด
+            <View style={{flexDirection: 'row',justifyContent:'center'}}>
+              <Text style={{textAlignVertical: 'center'}}>แจ้งเฉลยผิด</Text>
+              <TouchableOpacity
+                style={{justifyContent: 'center', marginVertical: 10}}>
+                <ArrowIcon
+                  width={26}
+                  height={26}
+                  style={{marginHorizontal: 5}}
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{justifyContent: 'center', marginVertical: 10}}>
+                <MailIcon
+                  width={30}
+                  height={30}
+                  style={{marginHorizontal: 5}}
+                />
+              </TouchableOpacity>
+            </View>
+              */}
           </View>
+        
         </View>
       </View>
     );

@@ -651,7 +651,7 @@ console.log(value);
                     setshowOvertimePlus(true);
                     setModalVisible(false);
                   }}>
-                  <Text style={[styles.textLight18, pageStyle.overTimeRight]}>
+                  <Text style={[styles.textLight18, pageStyle.overTimeRight2]}>
                     กดดูโฆษณารับสิทธิ์ต่อเวลา
                   </Text>
                 </TouchableOpacity>
@@ -800,6 +800,17 @@ const pageStyle = StyleSheet.create({
     borderWidth: 3,
     padding: 10,
     width: 100,
+    textAlignVertical: 'center',
+    textAlign: 'center',
+  },
+  overTimeRight2: {
+    backgroundColor: '#FF834E',
+    borderColor: '#FF834E',
+    color: '#fff',
+    borderRadius: 25,
+    borderWidth: 3,
+    padding: 10,
+    width: 200,
     textAlignVertical: 'center',
     textAlign: 'center',
   },

@@ -27,7 +27,7 @@ const homeScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const [couresData, setcouresData] = useState([]);
   // const couresData = useSelector((state: any) => state.coures.showcoures);
-  console.log(couresData);
+ // console.log(couresData);
   //const couresData = useSelector(state => state.coures.showcoures);
   //console.log(couresData);
   //const getCouresData = useCallback(() => {

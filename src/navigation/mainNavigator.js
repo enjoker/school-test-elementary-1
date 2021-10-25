@@ -36,13 +36,14 @@ import optionTestScreen from '../screens/optionTestScreen';
 import testScreen from '../screens/testScreen';
 import scoreScreen from '../screens/scoreScreen';
 import rankingScreen from '../screens/rankingScreen';
+import advertScreen from '../screens/advertScreen';
 
 const Navigator = () => {
   const dispatch = useDispatch();
   const checkUser = useSelector(state => state.user.userName);
   const loadingUser = useSelector(state => state.user.loadingUser);
   const Stack = createNativeStackNavigator();
-  const [privilegeAmount ,setprivilegeAmount] =useState(0);
+  const [privilegeAmount, setprivilegeAmount] = useState(0);
   const [ModalVisible, setModalVisible] = useState(false);
   {
     console.log(ModalVisible);
@@ -68,18 +69,28 @@ const Navigator = () => {
             ]}>
             ท่านมีสิทธื์ในการดูเฉลยจำนวน
           </Text>
-          <View style={{flexDirection: 'row',justifyContent:'center'}}>
+          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
             <Text
               style={[
                 styles.textRegular30,
-                {textAlign: 'center',textAlignVertical:'center', color: '#D7B641',marginHorizontal:5},
+                {
+                  textAlign: 'center',
+                  textAlignVertical: 'center',
+                  color: '#D7B641',
+                  marginHorizontal: 5,
+                },
               ]}>
               {privilegeAmount}
             </Text>
             <Text
               style={[
                 styles.textLight22,
-                {textAlign: 'center',textAlignVertical:'center', color: '#FFFFFF',marginHorizontal:5},
+                {
+                  textAlign: 'center',
+                  textAlignVertical: 'center',
+                  color: '#FFFFFF',
+                  marginHorizontal: 5,
+                },
               ]}>
               สิทธิ์
             </Text>
@@ -104,7 +115,7 @@ const Navigator = () => {
               style={{alignItems: 'center'}}
               onPress={() => {
                 setModalVisible(false);
-                setprivilegeAmount(privilegeAmount + 1)
+                setprivilegeAmount(privilegeAmount + 1);
               }}>
               <Text style={[styles.textLight18, pageStyle.overTimeRight]}>
                 กดดูโฆษณาเพื่อรับสิทธิ์เพิ่ม
@@ -206,11 +217,13 @@ const Navigator = () => {
     headerRight: () => {
       return (
         <View style={{flexDirection: 'row'}}>
+          {/* 
           <TouchableOpacity
             style={{marginLeft: 10}}
             onPress={() => setModalVisible(!ModalVisible)}>
             <AdvertIcon width={26} height={26} />
           </TouchableOpacity>
+          */}
           <TouchableOpacity
             style={{marginLeft: 10}}
             onPress={() => navigation.popToTop()}>
@@ -245,6 +258,17 @@ const Navigator = () => {
           />
         ) : checkUser !== null && loadingUser === false ? (
           <>
+            {/* 
+            <Stack.Screen
+              name="advert"
+              component={advertScreen}
+              options={{
+                headerTitle: () => {
+                  return <MainLogo />;
+                },
+              }}
+            />
+            */}
             <Stack.Screen
               name="home"
               component={homeScreen}

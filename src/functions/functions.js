@@ -10,6 +10,9 @@ export const getLevelAndExam = () => {
 export const getCoures = () => {
   return baseURL + 'sub-of-grade-no-auth/find-all-subject';
 };
+export const getSubAndTime = () => {
+  return baseURL + 'sub-of-grade-no-auth/find-by-cgd-id/1';
+};
 
 
 export const sendReport = () => {

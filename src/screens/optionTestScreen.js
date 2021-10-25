@@ -16,6 +16,7 @@ import styles from '../styles/style';
 import {Image, Icon, Avatar, normalize, Card} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {getSubAndTime} from '../functions/functions';
 import * as levelTestActions from '../store/actions/levelTest';
 
 const optionTestScreen = ({navigation, route}) => {
@@ -26,21 +27,13 @@ const optionTestScreen = ({navigation, route}) => {
   const [timeOut, settimeOut] = useState('-');
   const [gradeName, setgradeName] = useState('');
   const [showLevel, setshowLevel] = useState(true);
-  console.log(
-    timeOut +
-      '/' +
-      levelSelected +
-      '/' +
-      gradeName +
-      '/' +
-      subid +
-      '/' +
-      csgName +
-      '/' +
-      gradeid +
-      '/' +
-      couresName,
-  );
+  const [subAllDetail, setsubAllDetail] = useState([]);
+  const [subDetail, setsubDetail] = useState([]);
+  const [timeTestEasy, settimeTestEasy] = useState(0);
+  const [timeTestMedium, settimeTestMedium] = useState(0);
+  const [timeTestHard, settimeTestHard] = useState(0);
+
+  
   const dispatch = useDispatch();
   from === 'scoreScreen' || from === 'rankingScreen' // clear stack ถ้ามาจากหน้า score หรือ ranking
     ? navigation.reset({
@@ -58,8 +51,45 @@ const optionTestScreen = ({navigation, route}) => {
         ],
       })
     : null;
-
   useEffect(() => {}, []);
+
+  const GetSubDetail = async () => {
+    const res = await fetch(getSubAndTime(), {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    res.json().then(res => setsubAllDetail(res));
+
+    // const resData = await res.json();
+    // await setNewsData(resData)
+  };
+  useEffect(() => {
+    GetSubDetail();
+  }, []);
+
+  useEffect(() => {
+    for (let k = 0; k < subAllDetail.length; k++) {
+      if (subAllDetail[k] != '') {
+        if (subAllDetail[k].csgName == csgName) {
+          if (subDetail == '') {
+            settimeTestEasy(subAllDetail[k].csgEasyTime);
+            settimeTestMedium(subAllDetail[k].csgMediumTime);
+            settimeTestHard(subAllDetail[k].csgHardTime);
+            subDetail.push(subAllDetail[k]);
+          } else {
+            subDetail.splice(0, 1);
+            settimeTestEasy(subAllDetail[k].csgEasyTime);
+            settimeTestMedium(subAllDetail[k].csgMediumTime);
+            settimeTestHard(subAllDetail[k].csgHardTime);
+            subDetail.push(subAllDetail[k]);
+          }
+        }
+      }
+    }
+    console.log(subDetail);
+  }, [subAllDetail, subDetail, csgName]);
 
   const ContainerContent = () => {
     const optionTestHandler = async () => {
@@ -68,6 +98,8 @@ const optionTestScreen = ({navigation, route}) => {
         Alert.alert('แจ้งเตือน', 'กรุณาเลือกจำนวนข้อ', [{text: 'ยืนยัน'}]);
       } else if (levelSelected == 0 && showLevel == true) {
         Alert.alert('แจ้งเตือน', 'กรุณาเลือกระดับความยาก', [{text: 'ยืนยัน'}]);
+      } else if (timeOut == '-'){
+        Alert.alert('แจ้งเตือน', 'ข้อสอบนี้ยังไม่เปิดให้ทดลองทำ', [{text: 'ยืนยัน'}]);
       } else {
         action = levelTestActions.getLevel(
           '1',
@@ -107,50 +139,32 @@ const optionTestScreen = ({navigation, route}) => {
       }
     };
     useEffect(() => changeNameGrade(), [gradeid]);
+
     const timeTest = () => {
-      if (gradeid == 1 || gradeid == 35) {
+      if (timeTestEasy !== null && timeTestMedium !== null && timeTestHard !== null) {
+      console.log(timeTestMedium + 'What');
         if (questionSelected == 10 && levelSelected == 1) {
-          settimeOut(15);
+          settimeOut(questionSelected * timeTestEasy);
         } else if (questionSelected == 10 && levelSelected == 3) {
-          settimeOut(17);
+          settimeOut(questionSelected * timeTestMedium);
         } else if (questionSelected == 10 && levelSelected == 4) {
-          settimeOut(20);
+          settimeOut(questionSelected * timeTestHard);
         } else if (questionSelected == 15 && levelSelected == 1) {
-          settimeOut(23);
+          settimeOut(questionSelected * timeTestEasy);
         } else if (questionSelected == 15 && levelSelected == 3) {
-          settimeOut(26);
+          settimeOut(questionSelected * timeTestMedium);
         } else if (questionSelected == 15 && levelSelected == 4) {
-          settimeOut(30);
+          settimeOut(questionSelected * timeTestHard);
         } else if (questionSelected == 20 && levelSelected == 1) {
-          settimeOut(30);
+          settimeOut(questionSelected * timeTestEasy);
         } else if (questionSelected == 20 && levelSelected == 3) {
-          settimeOut(34);
+          settimeOut(questionSelected * timeTestMedium);
         } else if (questionSelected == 20 && levelSelected == 4) {
-          settimeOut(40);
-        }
-      } else {
-        if (questionSelected == 10 && levelSelected == 1) {
-          settimeOut(12);
-        } else if (questionSelected == 10 && levelSelected == 3) {
-          settimeOut(15);
-        } else if (questionSelected == 10 && levelSelected == 4) {
-          settimeOut(18);
-        } else if (questionSelected == 15 && levelSelected == 1) {
-          settimeOut(18);
-        } else if (questionSelected == 15 && levelSelected == 3) {
-          settimeOut(23);
-        } else if (questionSelected == 15 && levelSelected == 4) {
-          settimeOut(27);
-        } else if (questionSelected == 20 && levelSelected == 1) {
-          settimeOut(24);
-        } else if (questionSelected == 20 && levelSelected == 3) {
-          settimeOut(30);
-        } else if (questionSelected == 20 && levelSelected == 4) {
-          settimeOut(36);
+          settimeOut(questionSelected * timeTestHard);
         }
       }
     };
-    useEffect(() => timeTest(), [levelSelected, questionSelected]);
+    useEffect(() => timeTest(), [levelSelected, questionSelected, subDetail]);
 
     useEffect(() => {
       if (
@@ -183,6 +197,7 @@ const optionTestScreen = ({navigation, route}) => {
         setlevelSelected(3);
       }
     }, [csgName]);
+   
     return (
       <View style={{flex: 1, justifyContent: 'flex-start'}}>
         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
@@ -314,7 +329,7 @@ const optionTestScreen = ({navigation, route}) => {
                 textAlign: 'center',
                 color: '#0036F3',
                 paddingHorizontal: 5,
-                width: 50,
+                width: 80,
                 marginHorizontal: 5,
                 backgroundColor: '#FFD84E',
                 borderRadius: 10,
@@ -322,7 +337,9 @@ const optionTestScreen = ({navigation, route}) => {
                 borderColor: '#0036F3',
               },
             ]}>
-            {timeOut}
+            {timeOut == '-'
+              ? '-'
+              : new Date(timeOut * 1000).toISOString().substr(11, 8)}
           </Text>
           <Text
             style={[
