@@ -265,9 +265,7 @@ console.log(value);
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ImageBackground
-        style={{flex: 1}}
-        source={require('../assets/images/Background-Class.png')}>
+     <View style={{flex: 1, backgroundColor: '#ffffff'}}>
         <View
           style={{
             padding: 15,
@@ -695,7 +693,7 @@ console.log(value);
             </View>
           </View>
         </Modal>
-      </ImageBackground>
+      </View>
       <View
         style={{
           backgroundColor: '#EEEEEE',

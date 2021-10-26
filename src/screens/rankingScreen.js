@@ -47,9 +47,7 @@ const rankingScreen = ({navigation, route}) => {
 
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ImageBackground
-        style={{flex: 1}}
-        source={require('../assets/images/Background-Class.png')}>
+       <View style={{flex: 1, backgroundColor: '#ffffff'}}>
         <View
           style={{
             padding: 15,
@@ -354,7 +352,7 @@ const rankingScreen = ({navigation, route}) => {
             </View>
           </View>
         </View>
-      </ImageBackground>
+      </View>
       <View
         style={{
           backgroundColor: '#EEEEEE',

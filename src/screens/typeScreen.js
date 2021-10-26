@@ -16,19 +16,46 @@ import {Image, Icon, Avatar, normalize, Card} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
 
 const typeScreen = ({navigation, route}) => {
-  const ContainerContent = () => {
-    const SubGradeDetail = useSelector(state => state.subGrade.showSubGrade);
-    const {couresName} = route.params;
-    const [colorBox, setcolorBox] = useState([
-      '#028c6a',
-      '#1FA246',
-      '#FFA73F',
-      '#2E59F1',
-      '#FF4E4E',
-      '#EF2A80',
-      '#B13AFA',
-    ]);
+  const SubGradeDetail = useSelector(state => state.subGrade.showSubGrade);
+  const {couresName} = route.params;
+  const [newSubGradeDetail, setnewSubGradeDetail] = useState([]);
+  const [colorBox, setcolorBox] = useState([
+    '#028c6a',
+    '#1FA246',
+    '#FFA73F',
+    '#2E59F1',
+    '#FF4E4E',
+    '#EF2A80',
+    '#B13AFA',
+  ]);
 
+  useEffect(() => {
+    let test = [];
+    let dontUse = [];
+    let dataLength = SubGradeDetail.length
+    for (let k = 0; k < dataLength; k++) {   
+      let value = SubGradeDetail.splice(0, 1);   
+      if (value != '') {        
+        if (
+          value[0].csg_name == 'test' ||
+          value[0].csg_name == 'test1' ||
+          value[0].csg_name == 'test2' ||
+          value[0].csg_name == 'test3' ||
+          value[0].csg_name == 'Test' ||
+          value[0].csg_name == 'Test1' ||
+          value[0].csg_name == 'Test2' ||
+          value[0].csg_name == 'Test3'
+        ) {
+          dontUse.push(value[0]);
+        } else {
+          test.push(value[0]);
+        }
+      }
+    }
+    setnewSubGradeDetail(test);
+  }, [SubGradeDetail]);
+
+  const ContainerContent = () => {
     return (
       <View>
         <Text
@@ -40,8 +67,16 @@ const typeScreen = ({navigation, route}) => {
         </Text>
         <ScrollView>
           <View style={{flex: 1, alignItems: 'center'}}>
-            {SubGradeDetail !== null
-              ? SubGradeDetail.map((item, index) => {
+            {console.log(newSubGradeDetail)}
+            {newSubGradeDetail !== null
+              ? newSubGradeDetail.map((item, index) => {
+                  console.log(newSubGradeDetail);
+                  // console.log('hu');
+                  //   if (item.csg_name == 'test') {
+                  //     console.log('hi');
+                  //     SubGradeDetail.splice(index, 1);
+                  //   }
+                  //   console.log(SubGradeDetail);
                   return (
                     <TouchableOpacity
                       key={item.csg_id}
@@ -87,7 +122,8 @@ const typeScreen = ({navigation, route}) => {
     <SafeAreaView style={{flex: 1}}>
       <ImageBackground
         style={{flex: 1}}
-        source={require('../assets/images/Background-Class.png')}>
+        source={require('../assets/images/Background-Class.png')}
+        imageStyle={{opacity: 0.5}}>
         <View
           style={{
             padding: 15,

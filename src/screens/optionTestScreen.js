@@ -32,7 +32,6 @@ const optionTestScreen = ({navigation, route}) => {
   const [timeTestEasy, settimeTestEasy] = useState(null);
   const [timeTestMedium, settimeTestMedium] = useState(null);
   const [timeTestHard, settimeTestHard] = useState(null);
-  
 
   const dispatch = useDispatch();
   from === 'scoreScreen' || from === 'rankingScreen' // clear stack ถ้ามาจากหน้า score หรือ ranking
@@ -161,7 +160,7 @@ const optionTestScreen = ({navigation, route}) => {
         } else if (questionSelected == 20 && levelSelected == 3) {
           settimeOut(questionSelected * timeTestMedium);
         }
-      } else if (timeTestHard !== null  && levelSelected == 4) {
+      } else if (timeTestHard !== null && levelSelected == 4) {
         console.log(timeTestHard + 'ยาก');
         if (questionSelected == 10 && levelSelected == 4) {
           settimeOut(questionSelected * timeTestHard);
@@ -186,30 +185,9 @@ const optionTestScreen = ({navigation, route}) => {
 
     useEffect(() => {
       if (
-        csgName == 'สอบปลายภาคเรียน' ||
-        csgName == 'สอบปลายภาคเรียนที่ 1' ||
-        csgName == 'สอบปลายภาคเรียนที่ 2' ||
-        csgName == 'ภาษาไทย-สอบปลายภาคเรียน' ||
-        csgName == 'ภาษาไทย-สอบปลายภาคเรียนที่ 1' ||
-        csgName == 'ภาษาไทย-สอบปลายภาคเรียนที่ 2' ||
-        csgName == 'ภาษาอังกฤษ-สอบปลายภาคเรียน' ||
-        csgName == 'ภาษาอังกฤษ-สอบปลายภาคเรียนที่ 1' ||
-        csgName == 'ภาษาอังกฤษ-สอบปลายภาคเรียนที่ 2' ||
-        csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียน' ||
-        csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียนที่ 1' ||
-        csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียนที่ 2' ||
-        csgName == 'คณิตศาสตร์-สอบปลายภาคเรียน' ||
-        csgName == 'คณิตศาสตร์-สอบปลายภาคเรียนที่ 1' ||
-        csgName == 'คณิตศาสตร์-สอบปลายภาคเรียนที่ 2' ||
-        csgName == 'สังคม-สอบปลายภาคเรียน' ||
-        csgName == 'สังคม-สอบปลายภาคเรียนที่ 1' ||
-        csgName == 'สังคม-สอบปลายภาคเรียนที่ 2' ||
-        csgName == 'วิทยาศาสตร์-สอบปลายภาคเรียน' ||
-        csgName == 'วิทยาศาสตร์-สอบปลายภาคเรียนที่ 1' ||
-        csgName == 'วิทยาศาสตร์-สอบปลายภาคเรียนที่ 2' ||
-        csgName == 'ประวัติศาสตร์-สอบปลายภาคเรียน' ||
-        csgName == 'ประวัติศาสตร์-สอบปลายภาคเรียนที่ 1' ||
-        csgName == 'ประวัติศาสตร์-สอบปลายภาคเรียนที่ 2'
+        timeTestEasy == null &&
+        timeTestMedium !== null &&
+        timeTestHard == null
       ) {
         setshowLevel(false);
         setlevelSelected(3);
@@ -425,9 +403,7 @@ const optionTestScreen = ({navigation, route}) => {
   };
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ImageBackground
-        style={{flex: 1}}
-        source={require('../assets/images/Background-Class.png')}>
+      <View style={{flex: 1, backgroundColor: '#ffffff'}}>
         <View
           style={{
             padding: 15,
@@ -439,7 +415,7 @@ const optionTestScreen = ({navigation, route}) => {
             <ContainerContent />
           </View>
         </View>
-      </ImageBackground>
+      </View>
       <View
         style={{
           backgroundColor: '#EEEEEE',

@@ -26,16 +26,8 @@ import * as subGradeActions from '../store/actions/subGrade';
 const homeScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const [couresData, setcouresData] = useState([]);
-  // const couresData = useSelector((state: any) => state.coures.showcoures);
- // console.log(couresData);
-  //const couresData = useSelector(state => state.coures.showcoures);
-  //console.log(couresData);
-  //const getCouresData = useCallback(() => {
-  //  dispatch(couresActions.GETCouresData());
-  //}, []);
-  //useEffect(() => {
-  //  getCouresData();
-  //}, []);
+  const [newcouresData, setnewcouresData] = useState([]);
+  console.log(newcouresData.length);
 
   const GetCouresData = async () => {
     const res = await fetch(getCoures(), {
@@ -52,6 +44,33 @@ const homeScreen = ({navigation}) => {
   useEffect(() => {
     GetCouresData();
   }, []);
+  useEffect(() => {
+    let test = [];
+    let dontUse = [];
+    let dataLength = couresData.length;
+    for (let k = 0; k < dataLength; k++) {      
+      let value = couresData.splice(0, 1);
+      if (value != '') {
+        if (
+          value[0].csubName == 'test' ||
+          value[0].csubName == 'test1' ||
+          value[0].csubName == 'test2' ||
+          value[0].csubName == 'test3' ||
+          value[0].csubName == 'Test' ||
+          value[0].csubName == 'Test1' ||
+          value[0].csubName == 'Test2' ||
+          value[0].csubName == 'Test3'
+        ) {
+          dontUse.push(value[0]);
+        } else {
+          test.push(value[0]);
+        }
+      }
+    }
+    console.log(dataLength + test);
+    setnewcouresData(test);
+  }, [couresData]);
+
   const ContainerContent = () => {
     const gradeHandler = async (couresSelected, couresName) => {
       let action;
@@ -83,7 +102,7 @@ const homeScreen = ({navigation}) => {
           }}>
           <ScrollView>
             <View style={{flex: 1}}>
-              {couresData.map(item => {
+              {newcouresData.map(item => {
                 return (
                   <TouchableOpacity
                     key={item.csubId}
