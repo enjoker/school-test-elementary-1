@@ -32,8 +32,8 @@ const testScreen = ({navigation, route}) => {
   const [choiceSelected, setchoiceSelected] = useState([]);
   const [choiceUnAnswered, setchoiceUnAnswered] = useState([]);
   const [value, setValue] = useState();  
-  const [seconds, setseconds] = useState(timeOut * 60);
-  const [secondsPlus, setsecondsPlus] = useState(0 * 60);
+  const [seconds, setseconds] = useState(timeOut);
+  const [secondsPlus, setsecondsPlus] = useState(0);
   const [showOvertimePlus, setshowOvertimePlus] = useState(false);
   const [showModalTimeOut, setshowModalTimeOut] = useState(true);
   const [isModalVisible, setModalVisible] = useState(false);
@@ -120,7 +120,7 @@ console.log(value);
                   questionCount: questionDetails.length,
                   level: level,
                   timeLeft: seconds,
-                  timeOut: timeOut * 60,
+                  timeOut: timeOut,
                   choiceSelected: choiceSelected,
                   gradeName: gradeName,
                   csgId: csgId,
@@ -144,7 +144,7 @@ console.log(value);
                   questionCount: questionDetails.length,
                   level: level,
                   timeLeft: seconds,
-                  timeOut: timeOut * 60,
+                  timeOut: timeOut,
                   choiceSelected: choiceSelected,
                   gradeName: gradeName,
                   csgId: csgId,
@@ -169,7 +169,7 @@ console.log(value);
                 questionCount: questionDetails.length,
                 level: level,
                 timeLeft: seconds,
-                timeOut: timeOut * 60,
+                timeOut: timeOut,
                 choiceSelected: choiceSelected,
                 gradeName: gradeName,
                 csgId: csgId,
