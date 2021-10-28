@@ -32,10 +32,10 @@ const typeScreen = ({navigation, route}) => {
   useEffect(() => {
     let test = [];
     let dontUse = [];
-    let dataLength = SubGradeDetail.length
-    for (let k = 0; k < dataLength; k++) {   
-      let value = SubGradeDetail.splice(0, 1);   
-      if (value != '') {        
+    let dataLength = SubGradeDetail.length;
+    for (let k = 0; k < dataLength; k++) {
+      let value = SubGradeDetail.splice(0, 1);
+      if (value != '') {
         if (
           value[0].csg_name == 'test' ||
           value[0].csg_name == 'test1' ||
@@ -51,6 +51,14 @@ const typeScreen = ({navigation, route}) => {
           test.push(value[0]);
         }
       }
+    }
+    for (let k = 0; k < test.length; k++) {
+      console.log('for test');
+      SubGradeDetail.push(test[k]);
+    }
+    for (let k = 0; k < dontUse.length; k++) {
+      console.log('for dontUse');
+      SubGradeDetail.push(dontUse[k]);
     }
     setnewSubGradeDetail(test);
   }, [SubGradeDetail]);
@@ -71,12 +79,6 @@ const typeScreen = ({navigation, route}) => {
             {newSubGradeDetail !== null
               ? newSubGradeDetail.map((item, index) => {
                   console.log(newSubGradeDetail);
-                  // console.log('hu');
-                  //   if (item.csg_name == 'test') {
-                  //     console.log('hi');
-                  //     SubGradeDetail.splice(index, 1);
-                  //   }
-                  //   console.log(SubGradeDetail);
                   return (
                     <TouchableOpacity
                       key={item.csg_id}
