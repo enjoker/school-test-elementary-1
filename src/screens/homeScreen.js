@@ -66,6 +66,13 @@ const homeScreen = ({navigation}) => {
           test.push(value[0]);
         }
       }
+    }for (let k = 0; k < test.length; k++) {
+      console.log('for test');
+      couresData.push(test[k]);
+    }
+    for (let k = 0; k < dontUse.length; k++) {
+      console.log('for dontUse');
+      couresData.push(dontUse[k]);
     }
     console.log(dataLength + test);
     setnewcouresData(test);
