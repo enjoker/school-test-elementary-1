@@ -407,6 +407,55 @@ console.log(value);
                       </View>
                     ) : null}
                   </View>
+                  {choiceSelected.length !== questionDetails.length ? (
+                    showButtonSendExam ? (
+                      <View style={{alignItems: 'center'}}>
+                        <TouchableOpacity
+                          style={{marginTop: 10}}
+                          onPress={() => {
+                            warpExam();
+                            setchoiceUnAnswered([]);
+                          }}>
+                          <View style={[pageStyle.buttonUnAnswered]}>
+                            <Text
+                              style={[
+                                styles.textMedium16,
+                                pageStyle.textbuttonNB,
+                              ]}>
+                              กดเพื่อไปข้อที่ยังไม่ได้ทำ
+                            </Text>
+                          </View>
+                        </TouchableOpacity>
+                      </View>
+                    ) : null
+                  ) : showButtonSendExam ? (
+                    <View style={{alignItems: 'center'}}>
+                      <TouchableOpacity
+                        style={{marginTop: 10}}
+                        onPress={() => SendExamHandler(0)}>
+                        <View style={{alignItems: 'center'}}>
+                          <Image
+                            source={require('../assets/images/icons/SendExam.png')}
+                            style={{width: 30, height: 50}}
+                            resizeMode="stretch"
+                          />
+                          <View
+                            style={{
+                              alignItems: 'center',
+                              padding: 5,
+                            }}>
+                            <Text
+                              style={[
+                                styles.textMedium16,
+                                {marginHorizontal: 5},
+                              ]}>
+                              ส่งคำตอบ
+                            </Text>
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  ) : null}
                   <View
                     style={{
                       flexDirection: 'row',
@@ -500,56 +549,7 @@ console.log(value);
                         </View>
                       </TouchableOpacity>
                     )}
-                  </View>
-                  {choiceSelected.length !== questionDetails.length ? (
-                    showButtonSendExam ? (
-                      <View style={{alignItems: 'center'}}>
-                        <TouchableOpacity
-                          style={{marginTop: 10}}
-                          onPress={() => {
-                            warpExam();
-                            setchoiceUnAnswered([]);
-                          }}>
-                          <View style={[pageStyle.buttonUnAnswered]}>
-                            <Text
-                              style={[
-                                styles.textMedium16,
-                                pageStyle.textbuttonNB,
-                              ]}>
-                              กดเพื่อไปข้อที่ยังไม่ได้ทำ
-                            </Text>
-                          </View>
-                        </TouchableOpacity>
-                      </View>
-                    ) : null
-                  ) : showButtonSendExam ? (
-                    <View style={{alignItems: 'center'}}>
-                      <TouchableOpacity
-                        style={{marginTop: 10}}
-                        onPress={() => SendExamHandler(0)}>
-                        <View style={{alignItems: 'center'}}>
-                          <Image
-                            source={require('../assets/images/icons/SendExam.png')}
-                            style={{width: 30, height: 50}}
-                            resizeMode="stretch"
-                          />
-                          <View
-                            style={{
-                              alignItems: 'center',
-                              padding: 5,
-                            }}>
-                            <Text
-                              style={[
-                                styles.textMedium16,
-                                {marginHorizontal: 5},
-                              ]}>
-                              ส่งคำตอบ
-                            </Text>
-                          </View>
-                        </View>
-                      </TouchableOpacity>
-                    </View>
-                  ) : null}
+                  </View>                  
                 </ScrollView>
               </View>
             </View>

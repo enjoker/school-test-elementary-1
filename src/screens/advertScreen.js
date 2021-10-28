@@ -22,8 +22,7 @@ import {getCoures} from '../functions/functions';
 import HomeIcon from '../assets/images/icons/HomeIcon.svg';
 import AdvertIcon from '../assets/images/icons/Vector.svg';
 import Advert2Icon from '../assets/images/icons/Vector2.svg';
-import * as couresActions from '../store/actions/coures';
-import * as subGradeActions from '../store/actions/subGrade';
+
 
 const advertScreen = ({navigation}) => {
   const dispatch = useDispatch();

@@ -303,6 +303,7 @@ const optionTestScreen = ({navigation, route}) => {
         ) : null}
         <View
           style={{
+            justifyContent:'center',
             flexDirection: 'row',
             marginTop: 10,
           }}>
@@ -325,7 +326,7 @@ const optionTestScreen = ({navigation, route}) => {
                 textAlign: 'center',
                 color: '#0036F3',
                 paddingHorizontal: 5,
-                width: 80,
+                width: 100,
                 marginHorizontal: 5,
                 backgroundColor: '#FFD84E',
                 borderRadius: 10,
