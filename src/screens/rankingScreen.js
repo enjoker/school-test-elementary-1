@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -9,28 +9,29 @@ import {
   Dimensions,
 } from 'react-native';
 import styles from '../styles/style';
-import {useSelector, useDispatch} from 'react-redux';
-import {DataTable} from 'react-native-paper';
-import {Image, Icon, Avatar, normalize, Card} from 'react-native-elements';
+import { useSelector, useDispatch } from 'react-redux';
+import { DataTable } from 'react-native-paper';
+import { Image, Icon, Avatar, normalize, Card } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { CommonActions } from '@react-navigation/native';
 
 import * as scoreActions from '../store/actions/score';
 
-const rankingScreen = ({navigation, route}) => {
+const rankingScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
-  const {csgId, gradeId, csgName, gradeName,couresName} = route.params;
-  const {width} = Dimensions.get('window');
+  const { csgId, gradeId, csgName, gradeName, couresName } = route.params;
+  const { width } = Dimensions.get('window');
   const user = useSelector(state => state.score.user);
   const reportData = useSelector(state => state.score.showRanking);
 
   const findRank = reportData
     ? reportData
-        .sort((a, b) => {
-          return b.exreUsedTime - a.exreUsedTime;
-        })
-        .sort((a, b) => {
-          return b.exreRankingScore - a.exreRankingScore;
-        })
+      .sort((a, b) => {
+        return b.exreUsedTime - a.exreUsedTime;
+      })
+      .sort((a, b) => {
+        return b.exreRankingScore - a.exreRankingScore;
+      })
     : false;
 
   const myRanking = findRank
@@ -46,8 +47,8 @@ const rankingScreen = ({navigation, route}) => {
   }, []);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-       <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
         <View
           style={{
             padding: 15,
@@ -55,14 +56,14 @@ const rankingScreen = ({navigation, route}) => {
             marginBottom: 10,
             flex: 1,
           }}>
-          <View style={{flex: 1}}>
-            <View style={{flex: 1, justifyContent: 'flex-start'}}>
+          <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, justifyContent: 'flex-start' }}>
               <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text
                   style={[
                     styles.textMedium20,
-                    {textAlign: 'center', color: '#333333'},
+                    { textAlign: 'center', color: '#333333' },
                   ]}>
                   อันดับ
                 </Text>
@@ -70,48 +71,48 @@ const rankingScreen = ({navigation, route}) => {
                   numberOfLines={1}
                   style={[
                     styles.textMedium20,
-                    {textAlign: 'center', color: '#333333', flex: 1},
+                    { textAlign: 'center', color: '#333333', flex: 1 },
                   ]}>
                   {csgName}
                 </Text>
                 <Text
                   style={[
                     styles.textMedium20,
-                    {textAlign: 'center', color: '#333333'},
+                    { textAlign: 'center', color: '#333333' },
                   ]}>
                   {gradeName}
                 </Text>
               </View>
-              <View style={{flex: 1}}>
+              <View style={{ flex: 1 }}>
                 <DataTable>
                   <DataTable.Header>
                     <DataTable.Title
-                      style={{flex: 1.5, justifyContent: 'flex-start'}}>
-                      <Text style={[styles.textRegular14, {color: '#333333'}]}>
+                      style={{ flex: 1.5, justifyContent: 'flex-start' }}>
+                      <Text style={[styles.textRegular14, { color: '#333333' }]}>
                         อันดับ
                       </Text>
                     </DataTable.Title>
                     <DataTable.Title
-                      style={{flex: 3, justifyContent: 'center'}}>
-                      <Text style={[styles.textRegular14, {color: '#333333'}]}>
+                      style={{ flex: 3, justifyContent: 'center' }}>
+                      <Text style={[styles.textRegular14, { color: '#333333' }]}>
                         ชื่อ
                       </Text>
                     </DataTable.Title>
                     <DataTable.Title
-                      style={{flex: 2, justifyContent: 'center'}}>
-                      <Text style={[styles.textRegular14, {color: '#333333'}]}>
+                      style={{ flex: 2, justifyContent: 'center' }}>
+                      <Text style={[styles.textRegular14, { color: '#333333' }]}>
                         ระดับ
                       </Text>
                     </DataTable.Title>
                     <DataTable.Title
-                      style={{flex: 1.5, justifyContent: 'flex-end'}}>
-                      <Text style={[styles.textRegular14, {color: '#333333'}]}>
+                      style={{ flex: 1.5, justifyContent: 'flex-end' }}>
+                      <Text style={[styles.textRegular14, { color: '#333333' }]}>
                         คะแนน
                       </Text>
                     </DataTable.Title>
                     <DataTable.Title
-                      style={{flex: 1.5, justifyContent: 'flex-end'}}>
-                      <Text style={[styles.textRegular14, {color: '#333333'}]}>
+                      style={{ flex: 1.5, justifyContent: 'flex-end' }}>
+                      <Text style={[styles.textRegular14, { color: '#333333' }]}>
                         เวลา
                       </Text>
                     </DataTable.Title>
@@ -119,94 +120,94 @@ const rankingScreen = ({navigation, route}) => {
                   <ScrollView>
                     {findRank
                       ? findRank.slice(0, 10).map((item, index) => {
-                          return (
-                            <DataTable.Row
-                              key={item.exreId}
+                        return (
+                          <DataTable.Row
+                            key={item.exreId}
+                            style={{
+                              backgroundColor: '#fff',
+                              borderColor: '#2654f5',
+                              borderWidth: 1,
+                              borderBottomWidth: 1,
+                              borderBottomColor: '#2654f5',
+                              borderRadius: 8,
+                              marginBottom: 5,
+                            }}>
+                            <DataTable.Cell
                               style={{
-                                backgroundColor: '#fff',
-                                borderColor: '#2654f5',
-                                borderWidth: 1,
-                                borderBottomWidth: 1,
-                                borderBottomColor: '#2654f5',
-                                borderRadius: 8,
-                                marginBottom: 5,
+                                flex: 1.5,
+                                justifyContent: 'flex-start',
                               }}>
-                              <DataTable.Cell
-                                style={{
-                                  flex: 1.5,
-                                  justifyContent: 'flex-start',
-                                }}>
-                                <Text
-                                  style={[
-                                    styles.textRegular14,
-                                    {color: '#EF5DA8'},
-                                  ]}>
-                                  {index + 1}
-                                </Text>
-                              </DataTable.Cell>
-                              <DataTable.Cell
-                                style={{flex: 3, justifyContent: 'flex-start'}}>
-                                <Text
-                                  style={[
-                                    styles.textRegular14,
-                                    {color: '#EF5DA8'},
-                                  ]}>
-                                  {item.exreUser}
-                                </Text>
-                              </DataTable.Cell>
-                              <DataTable.Cell
-                                style={{flex: 2, justifyContent: 'center'}}>
-                                <Text
-                                  style={[
-                                    styles.textRegular14,
-                                    {color: '#EF5DA8'},
-                                  ]}>
-                                  {item.clvId === 1
-                                    ? 'ง่าย'
-                                    : item.clvId === 3
+                              <Text
+                                style={[
+                                  styles.textRegular14,
+                                  { color: '#EF5DA8' },
+                                ]}>
+                                {index + 1}
+                              </Text>
+                            </DataTable.Cell>
+                            <DataTable.Cell
+                              style={{ flex: 3, justifyContent: 'flex-start' }}>
+                              <Text
+                                style={[
+                                  styles.textRegular14,
+                                  { color: '#EF5DA8' },
+                                ]}>
+                                {item.exreUser}
+                              </Text>
+                            </DataTable.Cell>
+                            <DataTable.Cell
+                              style={{ flex: 2, justifyContent: 'center' }}>
+                              <Text
+                                style={[
+                                  styles.textRegular14,
+                                  { color: '#EF5DA8' },
+                                ]}>
+                                {item.clvId === 1
+                                  ? 'ง่าย'
+                                  : item.clvId === 3
                                     ? 'ปานกลาง'
                                     : item.clvId === 4
-                                    ? 'ยาก'
-                                    : '-'}
-                                </Text>
-                              </DataTable.Cell>
-                              <DataTable.Cell
-                                style={{flex: 1.5, justifyContent: 'flex-end'}}>
-                                <Text
-                                  style={[
-                                    styles.textRegular14,
-                                    {color: '#EF5DA8'},
-                                  ]}>
-                                  {item.exreRankingScore.toFixed(2)}
-                                </Text>
-                              </DataTable.Cell>
-                              <DataTable.Cell
-                                style={{flex: 1.5, justifyContent: 'flex-end'}}>
-                                <Text
-                                  style={[
-                                    styles.textRegular14,
-                                    {color: '#EF5DA8'},
-                                  ]}>
-                                  {item.exreUsedTime < 600
-                                    ? new Date(item.exreUsedTime * 1000)
-                                        .toISOString()
-                                        .substr(15, 1) +
-                                      '.' +
-                                      new Date(item.exreUsedTime * 1000)
-                                        .toISOString()
-                                        .substr(17, 2)
-                                    : new Date(item.exreUsedTime * 1000)
-                                        .toISOString()
-                                        .substr(14, 2) +
-                                      '.' +
-                                      new Date(item.exreUsedTime * 1000)
-                                        .toISOString()
-                                        .substr(17, 2)}
-                                </Text>
-                              </DataTable.Cell>
-                            </DataTable.Row>
-                          );
-                        })
+                                      ? 'ยาก'
+                                      : '-'}
+                              </Text>
+                            </DataTable.Cell>
+                            <DataTable.Cell
+                              style={{ flex: 1.5, justifyContent: 'flex-end' }}>
+                              <Text
+                                style={[
+                                  styles.textRegular14,
+                                  { color: '#EF5DA8' },
+                                ]}>
+                                {item.exreRankingScore.toFixed(2)}
+                              </Text>
+                            </DataTable.Cell>
+                            <DataTable.Cell
+                              style={{ flex: 1.5, justifyContent: 'flex-end' }}>
+                              <Text
+                                style={[
+                                  styles.textRegular14,
+                                  { color: '#EF5DA8' },
+                                ]}>
+                                {item.exreUsedTime < 600
+                                  ? new Date(item.exreUsedTime * 1000)
+                                    .toISOString()
+                                    .substr(15, 1) +
+                                  '.' +
+                                  new Date(item.exreUsedTime * 1000)
+                                    .toISOString()
+                                    .substr(17, 2)
+                                  : new Date(item.exreUsedTime * 1000)
+                                    .toISOString()
+                                    .substr(14, 2) +
+                                  '.' +
+                                  new Date(item.exreUsedTime * 1000)
+                                    .toISOString()
+                                    .substr(17, 2)}
+                              </Text>
+                            </DataTable.Cell>
+                          </DataTable.Row>
+                        );
+                      })
                       : null}
                   </ScrollView>
                 </DataTable>
@@ -219,7 +220,7 @@ const rankingScreen = ({navigation, route}) => {
                 <Text
                   style={[
                     styles.textMedium20,
-                    {textAlign: 'center', color: '#333333'},
+                    { textAlign: 'center', color: '#333333' },
                   ]}>
                   อันดับสูงสุดของคุณ
                 </Text>
@@ -235,59 +236,59 @@ const rankingScreen = ({navigation, route}) => {
                       marginBottom: 5,
                     }}>
                     <DataTable.Cell
-                      style={{flex: 1.5, justifyContent: 'flex-start'}}>
-                      <Text style={[styles.textRegular14, {color: '#EF5DA8'}]}>
+                      style={{ flex: 1.5, justifyContent: 'flex-start' }}>
+                      <Text style={[styles.textRegular14, { color: '#EF5DA8' }]}>
                         {myRanking + 1}
                       </Text>
                     </DataTable.Cell>
                     <DataTable.Cell
-                      style={{flex: 3, justifyContent: 'flex-start'}}>
-                      <Text style={[styles.textRegular14, {color: '#EF5DA8'}]}>
+                      style={{ flex: 3, justifyContent: 'flex-start' }}>
+                      <Text style={[styles.textRegular14, { color: '#EF5DA8' }]}>
                         {findRank && myRanking !== false
                           ? findRank[myRanking].exreUser
                           : null}
                       </Text>
                     </DataTable.Cell>
-                    <DataTable.Cell style={{flex: 2, justifyContent: 'center'}}>
-                      <Text style={[styles.textRegular14, {color: '#EF5DA8'}]}>
+                    <DataTable.Cell style={{ flex: 2, justifyContent: 'center' }}>
+                      <Text style={[styles.textRegular14, { color: '#EF5DA8' }]}>
                         {findRank && myRanking !== false
                           ? findRank[myRanking].clvId === 1
                             ? 'ง่าย'
                             : findRank[myRanking].clvId === 3
-                            ? 'ปานกลาง'
-                            : findRank[myRanking].clvId === 4
-                            ? 'ยาก'
-                            : '-'
+                              ? 'ปานกลาง'
+                              : findRank[myRanking].clvId === 4
+                                ? 'ยาก'
+                                : '-'
                           : null}
                       </Text>
                     </DataTable.Cell>
                     <DataTable.Cell
-                      style={{flex: 1.5, justifyContent: 'flex-end'}}>
-                      <Text style={[styles.textRegular14, {color: '#EF5DA8'}]}>
+                      style={{ flex: 1.5, justifyContent: 'flex-end' }}>
+                      <Text style={[styles.textRegular14, { color: '#EF5DA8' }]}>
                         {findRank && myRanking !== false
                           ? findRank[myRanking].exreRankingScore.toFixed(2)
                           : null}
                       </Text>
                     </DataTable.Cell>
                     <DataTable.Cell
-                      style={{flex: 1.5, justifyContent: 'flex-end'}}>
-                      <Text style={[styles.textRegular14, {color: '#EF5DA8'}]}>
+                      style={{ flex: 1.5, justifyContent: 'flex-end' }}>
+                      <Text style={[styles.textRegular14, { color: '#EF5DA8' }]}>
                         {findRank && myRanking !== false
                           ? findRank[myRanking].exreUsedTime < 600
                             ? new Date(findRank[myRanking].exreUsedTime * 1000)
-                                .toISOString()
-                                .substr(15, 1) +
-                              '.' +
-                              new Date(findRank[myRanking].exreUsedTime * 1000)
-                                .toISOString()
-                                .substr(17, 2)
+                              .toISOString()
+                              .substr(15, 1) +
+                            '.' +
+                            new Date(findRank[myRanking].exreUsedTime * 1000)
+                              .toISOString()
+                              .substr(17, 2)
                             : new Date(findRank[myRanking].exreUsedTime * 1000)
-                                .toISOString()
-                                .substr(14, 2) +
-                              '.' +
-                              new Date(findRank[myRanking].exreUsedTime * 1000)
-                                .toISOString()
-                                .substr(17, 2)
+                              .toISOString()
+                              .substr(14, 2) +
+                            '.' +
+                            new Date(findRank[myRanking].exreUsedTime * 1000)
+                              .toISOString()
+                              .substr(17, 2)
                           : null}
                       </Text>
                     </DataTable.Cell>
@@ -299,7 +300,7 @@ const rankingScreen = ({navigation, route}) => {
                     justifyContent: 'space-between',
                   }}>
                   <TouchableOpacity
-                    style={{alignItems: 'center', marginTop: 10}}
+                    style={{ alignItems: 'center', marginTop: 10 }}
                     onPress={() => navigation.navigate('home')}>
                     <Text
                       style={[
@@ -320,19 +321,29 @@ const rankingScreen = ({navigation, route}) => {
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    style={{alignItems: 'center', marginTop: 10}}
+                    style={{ alignItems: 'center', marginTop: 10 }}
                     onPress={() =>
-                      navigation.navigate('optionTest', {
-                        subid: csgId,
-                        gradeid: gradeId,
-                        csgName: csgName,
-                        from: 'rankingScreen'
-                      })
+                      navigation.dispatch(
+                        CommonActions.reset({
+                          index: 1,
+                          routes: [
+                            { name: 'home' },
+                            {
+                              name: 'optionTest',
+                              params: {
+                                subid: csgId,
+                                gradeid: gradeId,
+                                csgName: csgName,
+                              },
+                            },
+                          ],
+                        }),
+                      )
                     }>
-                    <View style={{alignItems: 'center'}}>
+                    <View style={{ alignItems: 'center' }}>
                       <Image
                         source={require('../assets/images/icons/ExamOneMore.png')}
-                        style={{width: 60, height: 50}}
+                        style={{ width: 60, height: 50 }}
                         resizeMode="stretch"
                       />
                       <View
@@ -341,7 +352,7 @@ const rankingScreen = ({navigation, route}) => {
                           padding: 5,
                         }}>
                         <Text
-                          style={[styles.textMedium16, {marginHorizontal: 5}]}>
+                          style={[styles.textMedium16, { marginHorizontal: 5 }]}>
                           ทำอีกครั้ง
                         </Text>
                       </View>
