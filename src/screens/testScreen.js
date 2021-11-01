@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,28 +10,27 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native';
-import {CommonActions} from '@react-navigation/native';
+import { CommonActions } from '@react-navigation/native';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import styles from '../styles/style';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 import ImageModal from 'react-native-image-modal';
-import {Image, Icon, Avatar, normalize, Card} from 'react-native-elements';
+import { Image, Icon, Avatar, normalize, Card } from 'react-native-elements';
 import Modal from 'react-native-modal';
-import {RadioButton} from 'react-native-paper';
+import { RadioButton } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
-const testScreen = ({navigation, route}) => {
-  const {timeOut, level, gradeName, csgId, csgName, gradeId, couresName} =
-    route.params;
+const testScreen = ({ navigation, route }) => {
+  const { timeOut, level, gradeName, csgId, csgName, gradeId, couresName, timeTestEasy, timeTestMedium, timeTestHard, } = route.params;
   const questionDetails = useSelector(state => state.level.randomQuestions);
-  const {width} = Dimensions.get('window');
+  const { width } = Dimensions.get('window');
   const [currentQuestion, setcurrentQuestion] = useState(0);
   const [choiceSelected, setchoiceSelected] = useState([]);
   const [choiceUnAnswered, setchoiceUnAnswered] = useState([]);
-  const [value, setValue] = useState();  
+  const [value, setValue] = useState();
   const [seconds, setseconds] = useState(timeOut);
   const [secondsPlus, setsecondsPlus] = useState(0);
   const [showOvertimePlus, setshowOvertimePlus] = useState(false);
@@ -40,9 +39,9 @@ const testScreen = ({navigation, route}) => {
   const [isConfirmExamVisible, setConfirmExamVisible] = useState(false);
   const [isIncompleteVisible, setIncompleteVisible] = useState(false);
   const [showButtonSendExam, setshowButtonSendExam] = useState(false);
-  
-  
-console.log(value);
+
+
+  console.log(value);
   const findChoice = item => {
     let choice = null;
     switch (true) {
@@ -74,12 +73,12 @@ console.log(value);
     );
     checkSelected === -1
       ? setchoiceSelected([
-          ...choiceSelected,
-          {
-            questionId: currentQuestion,
-            choiceValue: choiceValue,
-          },
-        ])
+        ...choiceSelected,
+        {
+          questionId: currentQuestion,
+          choiceValue: choiceValue,
+        },
+      ])
       : [(choiceSelected[checkSelected].choiceValue = choiceValue)];
   };
 
@@ -97,13 +96,13 @@ console.log(value);
           let value = choiceSelected.splice(0, 1);
           if (value != '') {
             if (value[0].questionId !== k) {
-              choiceTimeOut.push({choiceValue: 'หมดเวลา', questionId: k});
+              choiceTimeOut.push({ choiceValue: 'หมดเวลา', questionId: k });
               choiceSelected.unshift(value[0]);
             } else {
               choiceTimeOut.push(value[0]);
             }
           } else {
-            choiceTimeOut.push({choiceValue: 'หมดเวลา', questionId: k});
+            choiceTimeOut.push({ choiceValue: 'หมดเวลา', questionId: k });
           }
         }
         for (let k = 0; k < choiceTimeOut.length; k++) {
@@ -113,7 +112,7 @@ console.log(value);
           CommonActions.reset({
             index: 1,
             routes: [
-              {name: 'home'},
+              { name: 'home' },
               {
                 name: 'score',
                 params: {
@@ -127,6 +126,9 @@ console.log(value);
                   csgName: csgName,
                   gradeId: gradeId,
                   overTimePlus: secondsPlus,
+                  timeTestEasy: timeTestEasy,
+                  timeTestMedium: timeTestMedium,
+                  timeTestHard: timeTestHard,
                 },
               },
             ],
@@ -137,7 +139,7 @@ console.log(value);
           CommonActions.reset({
             index: 1,
             routes: [
-              {name: 'home'},
+              { name: 'home' },
               {
                 name: 'score',
                 params: {
@@ -151,6 +153,9 @@ console.log(value);
                   csgName: csgName,
                   gradeId: gradeId,
                   overTimePlus: secondsPlus,
+                  timeTestEasy: timeTestEasy,
+                  timeTestMedium: timeTestMedium,
+                  timeTestHard: timeTestHard,
                 },
               },
             ],
@@ -162,7 +167,7 @@ console.log(value);
         CommonActions.reset({
           index: 1,
           routes: [
-            {name: 'home'},
+            { name: 'home' },
             {
               name: 'score',
               params: {
@@ -176,6 +181,9 @@ console.log(value);
                 csgName: csgName,
                 gradeId: gradeId,
                 overTimePlus: secondsPlus,
+                timeTestEasy: timeTestEasy,
+                timeTestMedium: timeTestMedium,
+                timeTestHard: timeTestHard,
               },
             },
           ],
@@ -185,20 +193,20 @@ console.log(value);
     }
   };
   const warpExam = async () => {
-    let test = [];    
+    let test = [];
     for (let k = 0; k < questionDetails.length; k++) {
       //console.log(choiceSelected);
       choiceSelected.sort((a, b) => (a.questionId > b.questionId ? 1 : -1));
       let value = choiceSelected.splice(0, 1);
       if (value != '') {
         if (value[0].questionId !== k) {
-          choiceUnAnswered.push({choiceValue: false, questionId: k});
+          choiceUnAnswered.push({ choiceValue: false, questionId: k });
           choiceSelected.unshift(value[0]);
         } else {
           test.push(value[0]);
         }
       } else {
-        choiceUnAnswered.push({choiceValue: false, questionId: k});
+        choiceUnAnswered.push({ choiceValue: false, questionId: k });
       }
     }
     for (let k = 0; k < test.length; k++) {
@@ -208,7 +216,7 @@ console.log(value);
     //console.log(choiceSelected)
     if (choiceUnAnswered[0].choiceValue == false) {
       //console.log(choiceUnAnswered[0].questionId);
-      setcurrentQuestion(choiceUnAnswered[0].questionId);      
+      setcurrentQuestion(choiceUnAnswered[0].questionId);
     }
     setshowButtonSendExam(true);
   };
@@ -257,15 +265,15 @@ console.log(value);
       Alert.alert('แจ้งเตือน', 'วิชาย่อยนี้ยังไม่มีข้อสอบ', [
         {
           text: 'ยืนยัน',
-          onPress: () => navigation.navigate('type', {couresName: couresName}),
+          onPress: () => navigation.navigate('type', { couresName: couresName }),
         },
       ]);
     }
   }, [questionDetails]);
 
   return (
-    <SafeAreaView style={{flex: 1}}>
-     <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
         <View
           style={{
             padding: 15,
@@ -273,31 +281,31 @@ console.log(value);
             marginBottom: 10,
             flex: 1,
           }}>
-          <View style={{flex: 1}}>
-            <View style={{flex: 1, justifyContent: 'flex-start'}}>
+          <View style={{ flex: 1 }}>
+            <View style={{ flex: 1, justifyContent: 'flex-start' }}>
               <View
-                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Text
                   numberOfLines={1}
-                  style={[styles.textMedium20, {flex: 1, color: '#333333'}]}>
+                  style={[styles.textMedium20, { flex: 1, color: '#333333' }]}>
                   {csgName}
                 </Text>
                 <Text
                   style={[
                     styles.textMedium20,
-                    {textAlign: 'center', color: '#333333'},
+                    { textAlign: 'center', color: '#333333' },
                   ]}>
                   {gradeName}
                 </Text>
               </View>
-              <View style={{flex: 1}}>
+              <View style={{ flex: 1 }}>
                 <View
                   style={{
                     justifyContent: 'space-between',
                     flexDirection: 'row',
                     marginVertical: 5,
                   }}>
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{ flexDirection: 'row' }}>
                     <Text style={[styles.textMedium14, pageStyle.textEtc]}>
                       ข้อที่
                     </Text>
@@ -305,15 +313,15 @@ console.log(value);
                       {currentQuestion + 1}/{questionDetails.length}
                     </Text>
                   </View>
-                  <View style={{flexDirection: 'row'}}>
+                  <View style={{ flexDirection: 'row' }}>
                     <Text style={[styles.textMedium14, pageStyle.textEtc]}>
                       เหลือเวลา
                     </Text>
                     <Text style={[styles.textMedium14, pageStyle.boxYello]}>
                       {showOvertimePlus
                         ? new Date(secondsPlus * 1000)
-                            .toISOString()
-                            .substr(14, 5)
+                          .toISOString()
+                          .substr(14, 5)
                         : new Date(seconds * 1000).toISOString().substr(14, 5)}
 
                       {/*  hh/mm/ss
@@ -325,14 +333,14 @@ console.log(value);
                   </View>
                 </View>
                 <ScrollView>
-                  <View style={{justifyContent: 'center'}}>
+                  <View style={{ justifyContent: 'center' }}>
                     {questionDetails[currentQuestion] ? (
                       // questionDetails.map(item => {
                       //     return (
                       <View
-                        style={{width: width - wp('10%'), padding: 8}}
+                        style={{ width: width - wp('10%'), padding: 8 }}
                         key={questionDetails[currentQuestion].examId}>
-                        <View style={{marginTop: 10, marginBottom: 20}}>
+                        <View style={{ marginTop: 10, marginBottom: 20 }}>
                           <Text
                             style={[
                               styles.textBold16,
@@ -343,14 +351,14 @@ console.log(value);
                         </View>
                         {questionDetails[currentQuestion].examPicQuestion !==
                           null &&
-                        questionDetails[currentQuestion].examPicQuestion !==
+                          questionDetails[currentQuestion].examPicQuestion !==
                           '' ? (
-                          <View style={{marginVertical: 5}}>
+                          <View style={{ marginVertical: 5 }}>
                             <ImageModal
                               resizeMode="contain"
                               modalImageResizeMode="contain"
                               imageBackgroundColor="#ffffff"
-                              style={{width: 100, height: 100}}
+                              style={{ width: 100, height: 100 }}
                               source={{
                                 uri:
                                   'https://api.test.schoolcare.app/getImg/getUploadFile?name=' +
@@ -361,7 +369,7 @@ console.log(value);
                             />
                           </View>
                         ) : null}
-                        <View style={{marginVertical: 5}}>
+                        <View style={{ marginVertical: 5 }}>
                           <RadioButton.Group
                             onValueChange={newValue => selectChoice(newValue)}
                             value={value}>
@@ -384,8 +392,8 @@ console.log(value);
                                             value == item.c2 ||
                                             value == item.c3 ||
                                             value == item.c4
-                                          ? pageStyle.activeBg
-                                          : pageStyle.noneActiveBg,
+                                            ? pageStyle.activeBg
+                                            : pageStyle.noneActiveBg,
                                       ]}
                                       onPress={() => {
                                         selectChoice(choiceValue);
@@ -393,7 +401,7 @@ console.log(value);
                                       <Text
                                         style={[
                                           styles.textBold16,
-                                          {textAlignVertical: 'center'},
+                                          { textAlignVertical: 'center' },
                                         ]}>
                                         {' ' + choiceValue}
                                       </Text>
@@ -409,9 +417,9 @@ console.log(value);
                   </View>
                   {choiceSelected.length !== questionDetails.length ? (
                     showButtonSendExam ? (
-                      <View style={{alignItems: 'center'}}>
+                      <View style={{ alignItems: 'center' }}>
                         <TouchableOpacity
-                          style={{marginTop: 10}}
+                          style={{ marginTop: 10 }}
                           onPress={() => {
                             warpExam();
                             setchoiceUnAnswered([]);
@@ -429,14 +437,14 @@ console.log(value);
                       </View>
                     ) : null
                   ) : showButtonSendExam ? (
-                    <View style={{alignItems: 'center'}}>
+                    <View style={{ alignItems: 'center' }}>
                       <TouchableOpacity
-                        style={{marginTop: 10}}
+                        style={{ marginTop: 10 }}
                         onPress={() => SendExamHandler(0)}>
-                        <View style={{alignItems: 'center'}}>
+                        <View style={{ alignItems: 'center' }}>
                           <Image
                             source={require('../assets/images/icons/SendExam.png')}
-                            style={{width: 30, height: 50}}
+                            style={{ width: 30, height: 50 }}
                             resizeMode="stretch"
                           />
                           <View
@@ -447,7 +455,7 @@ console.log(value);
                             <Text
                               style={[
                                 styles.textMedium16,
-                                {marginHorizontal: 5},
+                                { marginHorizontal: 5 },
                               ]}>
                               ส่งคำตอบ
                             </Text>
@@ -465,12 +473,12 @@ console.log(value);
                       <View />
                     ) : (
                       <TouchableOpacity
-                        style={{marginTop: 10}}
+                        style={{ marginTop: 10 }}
                         onPress={() => setcurrentQuestion(currentQuestion - 1)}>
-                        <View style={{alignItems: 'center'}}>
+                        <View style={{ alignItems: 'center' }}>
                           <Image
                             source={require('../assets/images/icons/Pre-bt.png')}
-                            style={{width: 50, height: 50}}
+                            style={{ width: 50, height: 50 }}
                           />
                           <View
                             style={{
@@ -480,12 +488,12 @@ console.log(value);
                             }}>
                             <Image
                               source={require('../assets/images/icons/previous.png')}
-                              style={{width: 15, height: 15}}
+                              style={{ width: 15, height: 15 }}
                             />
                             <Text
                               style={[
                                 styles.textMedium16,
-                                {marginHorizontal: 5},
+                                { marginHorizontal: 5 },
                               ]}>
                               ก่อนหน้า
                             </Text>
@@ -496,12 +504,12 @@ console.log(value);
 
                     {currentQuestion === questionDetails.length - 1 ? (
                       <TouchableOpacity
-                        style={{marginTop: 10}}
+                        style={{ marginTop: 10 }}
                         onPress={() => SendExamHandler(0)}>
-                        <View style={{alignItems: 'center'}}>
+                        <View style={{ alignItems: 'center' }}>
                           <Image
                             source={require('../assets/images/icons/SendExam.png')}
-                            style={{width: 30, height: 50}}
+                            style={{ width: 30, height: 50 }}
                             resizeMode="stretch"
                           />
                           <View
@@ -512,7 +520,7 @@ console.log(value);
                             <Text
                               style={[
                                 styles.textMedium16,
-                                {marginHorizontal: 5},
+                                { marginHorizontal: 5 },
                               ]}>
                               ส่งคำตอบ
                             </Text>
@@ -521,12 +529,12 @@ console.log(value);
                       </TouchableOpacity>
                     ) : (
                       <TouchableOpacity
-                        style={{marginTop: 10}}
+                        style={{ marginTop: 10 }}
                         onPress={() => setcurrentQuestion(currentQuestion + 1)}>
-                        <View style={{alignItems: 'center'}}>
+                        <View style={{ alignItems: 'center' }}>
                           <Image
                             source={require('../assets/images/icons/Next-bt.png')}
-                            style={{width: 50, height: 50}}
+                            style={{ width: 50, height: 50 }}
                           />
                           <View
                             style={{
@@ -537,30 +545,30 @@ console.log(value);
                             <Text
                               style={[
                                 styles.textMedium16,
-                                {marginHorizontal: 5},
+                                { marginHorizontal: 5 },
                               ]}>
                               ข้อถัดไป
                             </Text>
                             <Image
                               source={require('../assets/images/icons/next.png')}
-                              style={{width: 15, height: 15}}
+                              style={{ width: 15, height: 15 }}
                             />
                           </View>
                         </View>
                       </TouchableOpacity>
                     )}
-                  </View>                  
+                  </View>
                 </ScrollView>
               </View>
             </View>
           </View>
         </View>
         <Modal isVisible={isConfirmExamVisible}>
-          <View style={{flex: 1, justifyContent: 'center'}}>
+          <View style={{ flex: 1, justifyContent: 'center' }}>
             <View
               style={[
                 styles.boxOvertime,
-                {backgroundColor: '#fff', borderRadius: 15},
+                { backgroundColor: '#fff', borderRadius: 15 },
               ]}>
               <Text
                 style={[
@@ -573,7 +581,7 @@ console.log(value);
               <Text
                 style={[
                   styles.textLight18,
-                  {marginTop: 10, padding: 10, textAlign: 'center'},
+                  { marginTop: 10, padding: 10, textAlign: 'center' },
                 ]}>
                 ยืนยันการส่งคำตอบใช่หรือไม่ ?
               </Text>
@@ -584,14 +592,14 @@ console.log(value);
                   padding: 10,
                 }}>
                 <TouchableOpacity
-                  style={{alignItems: 'center'}}
+                  style={{ alignItems: 'center' }}
                   onPress={() => setConfirmExamVisible(false)}>
                   <Text style={[styles.textLight18, pageStyle.confirmLeft]}>
                     ไม่ใช่
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={{alignItems: 'center'}}
+                  style={{ alignItems: 'center' }}
                   onPress={() => {
                     SendExamHandler(2);
                     setshowOvertimePlus(false);
@@ -606,11 +614,11 @@ console.log(value);
           </View>
         </Modal>
         <Modal isVisible={isModalVisible}>
-          <View style={{flex: 1, justifyContent: 'center'}}>
+          <View style={{ flex: 1, justifyContent: 'center' }}>
             <View
               style={[
                 styles.boxOvertime,
-                {backgroundColor: '#fff', borderRadius: 15},
+                { backgroundColor: '#fff', borderRadius: 15 },
               ]}>
               <Text
                 style={[
@@ -623,7 +631,7 @@ console.log(value);
               <Text
                 style={[
                   styles.textLight18,
-                  {marginTop: 10, padding: 10, textAlign: 'center'},
+                  { marginTop: 10, padding: 10, textAlign: 'center' },
                 ]}>
                 ต้องการทำต่อหรือไม่ ?
               </Text>
@@ -634,7 +642,7 @@ console.log(value);
                   padding: 10,
                 }}>
                 <TouchableOpacity
-                  style={{alignItems: 'center'}}
+                  style={{ alignItems: 'center' }}
                   onPress={() => {
                     SendExamHandler(1);
                     setModalVisible(false);
@@ -644,7 +652,7 @@ console.log(value);
                   </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  style={{alignItems: 'center'}}
+                  style={{ alignItems: 'center' }}
                   onPress={() => {
                     setshowOvertimePlus(true);
                     setModalVisible(false);
@@ -658,11 +666,11 @@ console.log(value);
           </View>
         </Modal>
         <Modal isVisible={isIncompleteVisible}>
-          <View style={{flex: 1, justifyContent: 'center'}}>
+          <View style={{ flex: 1, justifyContent: 'center' }}>
             <View
               style={[
                 styles.boxOvertime,
-                {backgroundColor: '#fff', borderRadius: 15},
+                { backgroundColor: '#fff', borderRadius: 15 },
               ]}>
               <Text
                 style={[
@@ -675,12 +683,12 @@ console.log(value);
               <Text
                 style={[
                   styles.textLight18,
-                  {marginTop: 10, padding: 10, textAlign: 'center'},
+                  { marginTop: 10, padding: 10, textAlign: 'center' },
                 ]}>
                 คุณยังเลือกคำตอบไม่ครบ
               </Text>
               <TouchableOpacity
-                style={{alignItems: 'center', padding: 10}}
+                style={{ alignItems: 'center', padding: 10 }}
                 onPress={() => {
                   setIncompleteVisible(false);
                   warpExam();

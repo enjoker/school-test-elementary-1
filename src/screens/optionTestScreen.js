@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -13,14 +13,14 @@ import {
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
 import styles from '../styles/style';
-import {Image, Icon, Avatar, normalize, Card} from 'react-native-elements';
-import {useDispatch, useSelector} from 'react-redux';
+import { Image, Icon, Avatar, normalize, Card } from 'react-native-elements';
+import { useDispatch, useSelector } from 'react-redux';
 
-import {getSubAndTime} from '../functions/functions';
+import { getSubAndTime } from '../functions/functions';
 import * as levelTestActions from '../store/actions/levelTest';
 
-const optionTestScreen = ({navigation, route}) => {
-  const {subid, gradeid, csgName, couresName} = route.params;
+const optionTestScreen = ({ navigation, route }) => {
+  const { subid, gradeid, csgName, couresName } = route.params;
   const from = route.params.from;
   const [questionSelected, setquestionSelected] = useState(0);
   const [levelSelected, setlevelSelected] = useState(0);
@@ -76,12 +76,12 @@ const optionTestScreen = ({navigation, route}) => {
     const optionTestHandler = async () => {
       let action;
       if (questionSelected == 0) {
-        Alert.alert('แจ้งเตือน', 'กรุณาเลือกจำนวนข้อ', [{text: 'ยืนยัน'}]);
+        Alert.alert('แจ้งเตือน', 'กรุณาเลือกจำนวนข้อ', [{ text: 'ยืนยัน' }]);
       } else if (levelSelected == 0 && showLevel == true) {
-        Alert.alert('แจ้งเตือน', 'กรุณาเลือกระดับความยาก', [{text: 'ยืนยัน'}]);
+        Alert.alert('แจ้งเตือน', 'กรุณาเลือกระดับความยาก', [{ text: 'ยืนยัน' }]);
       } else if (timeOut == '-') {
         Alert.alert('แจ้งเตือน', 'ข้อสอบจะเปิดให้ทำเร็วๆนี้', [
-          {text: 'ยืนยัน'},
+          { text: 'ยืนยัน' },
         ]);
       } else {
         action = levelTestActions.getLevel(
@@ -100,6 +100,9 @@ const optionTestScreen = ({navigation, route}) => {
             csgName: csgName,
             gradeId: gradeid,
             couresName: couresName,
+            timeTestEasy: timeTestEasy,
+            timeTestMedium: timeTestMedium,
+            timeTestHard: timeTestHard,
           });
         } catch (e) {
           Alert.alert('แจ้งเตือน', e.message);
@@ -177,23 +180,23 @@ const optionTestScreen = ({navigation, route}) => {
     }, [csgName]);
 
     return (
-      <View style={{flex: 1, justifyContent: 'flex-start'}}>
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Text
             numberOfLines={1}
-            style={[styles.textMedium20, {flex: 1, color: '#333333'}]}>
+            style={[styles.textMedium20, { flex: 1, color: '#333333' }]}>
             {csgName}
           </Text>
           <Text
             style={[
               styles.textMedium20,
-              {textAlign: 'center', color: '#333333'},
+              { textAlign: 'center', color: '#333333' },
             ]}>
             {gradeName}
           </Text>
         </View>
         <View style={pageStyle.optionHeading}>
-          <Text style={[styles.textMedium20, {textAlign: 'center'}]}>
+          <Text style={[styles.textMedium20, { textAlign: 'center' }]}>
             เลือกจำนวนข้อ
           </Text>
           <View style={pageStyle.optionSection}>
@@ -237,7 +240,7 @@ const optionTestScreen = ({navigation, route}) => {
         </View>
         {showLevel ? (
           <View style={pageStyle.optionHeading}>
-            <Text style={[styles.textMedium20, {textAlign: 'center'}]}>
+            <Text style={[styles.textMedium20, { textAlign: 'center' }]}>
               เลือกระดับ
             </Text>
             <View style={pageStyle.optionSection}>
@@ -285,7 +288,7 @@ const optionTestScreen = ({navigation, route}) => {
         ) : null}
         <View
           style={{
-            justifyContent:'center',
+            justifyContent: 'center',
             flexDirection: 'row',
             marginTop: 10,
           }}>
@@ -333,7 +336,7 @@ const optionTestScreen = ({navigation, route}) => {
           </Text>
         </View>
         <TouchableOpacity
-          style={{alignItems: 'center', marginTop: 10}}
+          style={{ alignItems: 'center', marginTop: 10 }}
           onPress={optionTestHandler}>
           <View
             style={{
@@ -358,12 +361,12 @@ const optionTestScreen = ({navigation, route}) => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={{alignItems: 'flex-start', marginTop: 20, width: 100}}
-          onPress={() => navigation.navigate('type', {couresName: couresName})}>
-          <View style={{alignItems: 'center'}}>
+          style={{ alignItems: 'flex-start', marginTop: 20, width: 100 }}
+          onPress={() => navigation.navigate('type', { couresName: couresName })}>
+          <View style={{ alignItems: 'center' }}>
             <Image
               source={require('../assets/images/icons/Pre-bt.png')}
-              style={{width: 50, height: 50}}
+              style={{ width: 50, height: 50 }}
             />
             <View
               style={{
@@ -373,9 +376,9 @@ const optionTestScreen = ({navigation, route}) => {
               }}>
               <Image
                 source={require('../assets/images/icons/previous.png')}
-                style={{width: 15, height: 15}}
+                style={{ width: 15, height: 15 }}
               />
-              <Text style={[styles.textMedium16, {marginHorizontal: 5}]}>
+              <Text style={[styles.textMedium16, { marginHorizontal: 5 }]}>
                 ย้อนกลับ
               </Text>
             </View>
@@ -385,8 +388,8 @@ const optionTestScreen = ({navigation, route}) => {
     );
   };
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
         <View
           style={{
             padding: 15,
@@ -394,7 +397,7 @@ const optionTestScreen = ({navigation, route}) => {
             marginBottom: 10,
             flex: 1,
           }}>
-          <View style={{flex: 1}}>
+          <View style={{ flex: 1 }}>
             <ContainerContent />
           </View>
         </View>

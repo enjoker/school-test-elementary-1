@@ -40,6 +40,9 @@ const scoreScreen = ({ navigation, route }) => {
     gradeId,
     overTimePlus,
     couresName,
+    timeTestEasy,
+    timeTestMedium,
+    timeTestHard,
   } = route.params;
   const timeUsed = timeOut - timeLeft + overTimePlus;
   const timePlus = timeLeft - overTimePlus;
@@ -130,30 +133,9 @@ const scoreScreen = ({ navigation, route }) => {
 
   useEffect(() => {
     if (
-      csgName == 'สอบปลายภาคเรียน' ||
-      csgName == 'สอบปลายภาคเรียนที่ 1' ||
-      csgName == 'สอบปลายภาคเรียนที่ 2' ||
-      csgName == 'ภาษาไทย-สอบปลายภาคเรียน' ||
-      csgName == 'ภาษาไทย-สอบปลายภาคเรียนที่ 1' ||
-      csgName == 'ภาษาไทย-สอบปลายภาคเรียนที่ 2' ||
-      csgName == 'ภาษาอังกฤษ-สอบปลายภาคเรียน' ||
-      csgName == 'ภาษาอังกฤษ-สอบปลายภาคเรียนที่ 1' ||
-      csgName == 'ภาษาอังกฤษ-สอบปลายภาคเรียนที่ 2' ||
-      csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียน' ||
-      csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียนที่ 1' ||
-      csgName == 'ภาษาต่างประเทศ-สอบปลายภาคเรียนที่ 2' ||
-      csgName == 'คณิตศาสตร์-สอบปลายภาคเรียน' ||
-      csgName == 'คณิตศาสตร์-สอบปลายภาคเรียนที่ 1' ||
-      csgName == 'คณิตศาสตร์-สอบปลายภาคเรียนที่ 2' ||
-      csgName == 'สังคม-สอบปลายภาคเรียน' ||
-      csgName == 'สังคม-สอบปลายภาคเรียนที่ 1' ||
-      csgName == 'สังคม-สอบปลายภาคเรียนที่ 2' ||
-      csgName == 'วิทยาศาสตร์-สอบปลายภาคเรียน' ||
-      csgName == 'วิทยาศาสตร์-สอบปลายภาคเรียนที่ 1' ||
-      csgName == 'วิทยาศาสตร์-สอบปลายภาคเรียนที่ 2' ||
-      csgName == 'ประวัติศาสตร์-สอบปลายภาคเรียน' ||
-      csgName == 'ประวัติศาสตร์-สอบปลายภาคเรียนที่ 1' ||
-      csgName == 'ประวัติศาสตร์-สอบปลายภาคเรียนที่ 2'
+      timeTestEasy == null &&
+      timeTestMedium !== null &&
+      timeTestHard == null
     ) {
       setshowLevel(false);
     }
@@ -833,6 +815,7 @@ const scoreScreen = ({ navigation, route }) => {
                                     subid: csgId,
                                     gradeid: gradeId,
                                     csgName: csgName,
+                                    couresName:couresName,
                                   },
                                 },
                               ],
