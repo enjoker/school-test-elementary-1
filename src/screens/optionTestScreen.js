@@ -34,24 +34,6 @@ const optionTestScreen = ({navigation, route}) => {
   const [timeTestHard, settimeTestHard] = useState(null);
 
   const dispatch = useDispatch();
-  from === 'scoreScreen' || from === 'rankingScreen' // clear stack ถ้ามาจากหน้า score หรือ ranking
-    ? navigation.reset({
-        index: 1,
-        routes: [
-          {name: 'home'},
-          {
-            name: 'optionTest',
-            params: {
-              subid: subid,
-              gradeid: gradeid,
-              csgName: csgName,
-            },
-          },
-        ],
-      })
-    : null;
-  useEffect(() => {}, []);
-
   const GetSubDetail = async () => {
     const res = await fetch(getSubAndTime(), {
       method: 'GET',
