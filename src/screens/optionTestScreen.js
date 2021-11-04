@@ -18,6 +18,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getSubAndTime } from '../functions/functions';
 import * as levelTestActions from '../store/actions/levelTest';
+// import Ads
+import BannerAds from '../components/bannerAds';
 
 const optionTestScreen = ({ navigation, route }) => {
   const { subid, gradeid, csgName, couresName } = route.params;
@@ -402,15 +404,7 @@ const optionTestScreen = ({ navigation, route }) => {
           </View>
         </View>
       </View>
-      <View
-        style={{
-          backgroundColor: '#EEEEEE',
-          height: 50,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Text>Ads Area</Text>
-      </View>
+      <BannerAds />
     </SafeAreaView>
   );
 };

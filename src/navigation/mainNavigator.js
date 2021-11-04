@@ -3,17 +3,8 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useDispatch, useSelector} from 'react-redux';
-import {
-  Image,
-  Icon,
-  Avatar,
-  normalize,
-  Card,
-  Input,
-} from 'react-native-elements';
+import { Image } from 'react-native-elements';
 import styles from '../styles/style';
-import Modal from 'react-native-modal';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -24,7 +15,7 @@ import * as userActions from '../store/actions/user';
 // import Icon.SVG
 import RenameIcon from '../assets/images/icons/rename_icon.svg';
 import HomeIcon from '../assets/images/icons/HomeIcon.svg';
-import AdvertIcon from '../assets/images/icons/Vector.svg';
+// import AdvertIcon from '../assets/images/icons/Vector.svg';
 
 //import Screen
 import registerScreen from '../screens/registerScreen';
@@ -38,147 +29,34 @@ import scoreScreen from '../screens/scoreScreen';
 import rankingScreen from '../screens/rankingScreen';
 import advertScreen from '../screens/advertScreen';
 
+// import {useRewardedAd} from '@react-native-admob/admob';
+
+const hookOptions = {
+  loadOnDismissed: true,
+  requestOptions: {
+    requestNonPersonalizedAdsOnly: true,
+  },
+};
+
 const Navigator = () => {
   const dispatch = useDispatch();
   const checkUser = useSelector(state => state.user.userName);
   const loadingUser = useSelector(state => state.user.loadingUser);
-  const Stack = createNativeStackNavigator();
-  const [privilegeAmount, setprivilegeAmount] = useState(0);
-  const [ModalVisible, setModalVisible] = useState(false);
-  {
-    console.log(ModalVisible);
-  }
-
-  const AdvertModal = () => {
-    return (
-      <View style={{flex: 1, justifyContent: 'center'}}>
-        <View
-          style={[
-            styles.boxOvertime,
-            {backgroundColor: '#1FA246', borderRadius: 15},
-          ]}>
-          <Text
-            style={[
-              styles.textLight22,
-              {
-                marginTop: 10,
-
-                textAlign: 'center',
-                color: '#FFFFFF',
-              },
-            ]}>
-            ท่านมีสิทธื์ในการดูเฉลยจำนวน
-          </Text>
-          <View style={{flexDirection: 'row', justifyContent: 'center'}}>
-            <Text
-              style={[
-                styles.textRegular30,
-                {
-                  textAlign: 'center',
-                  textAlignVertical: 'center',
-                  color: '#D7B641',
-                  marginHorizontal: 5,
-                },
-              ]}>
-              {privilegeAmount}
-            </Text>
-            <Text
-              style={[
-                styles.textLight22,
-                {
-                  textAlign: 'center',
-                  textAlignVertical: 'center',
-                  color: '#FFFFFF',
-                  marginHorizontal: 5,
-                },
-              ]}>
-              สิทธิ์
-            </Text>
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              padding: 10,
-              marginBottom: 5,
-            }}>
-            <TouchableOpacity
-              style={{alignItems: 'center'}}
-              onPress={() => {
-                setModalVisible(false);
-              }}>
-              <Text style={[styles.textLight18, pageStyle.overTimeLeft]}>
-                ยกเลิก
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{alignItems: 'center'}}
-              onPress={() => {
-                setModalVisible(false);
-                setprivilegeAmount(privilegeAmount + 1);
-              }}>
-              <Text style={[styles.textLight18, pageStyle.overTimeRight]}>
-                กดดูโฆษณาเพื่อรับสิทธิ์เพิ่ม
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        {/* <View
-          style={[
-            styles.boxOvertime,
-            {backgroundColor: '#D84315', borderRadius: 15},
-          ]}>
-          <Text
-            style={[
-              styles.textLight22,
-              {marginTop: 10, padding: 10, textAlign: 'center',color:'#FFFFFF'},
-            ]}>
-            สิทธิ์ในการดูเฉลยของท่านเหลือ 0
-          </Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              padding: 10,
-              marginBottom:10
-            }}>
-            <TouchableOpacity
-              style={{alignItems: 'center'}}
-              onPress={() => {
-                setModalVisible(false);
-              }}>
-              <Text style={[styles.textLight18, pageStyle.overTimeLeft]}>
-                ยกเลิก
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{alignItems: 'center'}}
-              onPress={() => {
-                setModalVisible(false);
-              }}>
-              <Text style={[styles.textLight18, pageStyle.overTimeRight]}>
-                กดดูโฆษณาเพื่อรับ 2 สิทธิ์
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        */}
-      </View>
-    );
-  };
+  const Stack = createNativeStackNavigator();  
 
   useEffect(() => {
     const getUser = async () => {
       try {
         dispatch(userActions.getUser());
-        // await AsyncStorage.removeItem('user')
+      //  await AsyncStorage.removeItem('user')
+      //  await AsyncStorage.removeItem('privilege')
       } catch (error) {
         console.log(error);
       }
     };
     getUser();
   }, []);
-
+  
   const MainLogo = () => {
     return (
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
@@ -200,12 +78,11 @@ const Navigator = () => {
       return <MainLogo />;
     },
     headerRight: () => {
-      return (
-        <View>
-          <TouchableOpacity onPress={() => navigation.popToTop()}>
+      return (     
+          <TouchableOpacity           
+            onPress={() => navigation.popToTop()}>
             <HomeIcon width={26} height={26} />
-          </TouchableOpacity>
-        </View>
+          </TouchableOpacity>       
       );
     },
   });
@@ -215,21 +92,11 @@ const Navigator = () => {
       return <MainLogo />;
     },
     headerRight: () => {
-      return (
-        <View style={{flexDirection: 'row'}}>
-          {/* 
-          <TouchableOpacity
-            style={{marginLeft: 10}}
-            onPress={() => setModalVisible(!ModalVisible)}>
-            <AdvertIcon width={26} height={26} />
-          </TouchableOpacity>
-          */}
-          <TouchableOpacity
-            style={{marginLeft: 10}}
+      return (               
+          <TouchableOpacity            
             onPress={() => navigation.popToTop()}>
             <HomeIcon width={26} height={26} />
-          </TouchableOpacity>
-        </View>
+          </TouchableOpacity>   
       );
     },
   });
@@ -251,24 +118,20 @@ const Navigator = () => {
     return (
       <Stack.Navigator>
         {checkUser === null && loadingUser === false ? (
-          <Stack.Screen
-            name="register"
-            component={registerScreen}
-            options={{headerShown: false}}
-          />
-        ) : checkUser !== null && loadingUser === false ? (
           <>
-            {/* 
+            <Stack.Screen
+              name="register"
+              component={registerScreen}
+              options={{headerShown: false}}
+            />
             <Stack.Screen
               name="advert"
               component={advertScreen}
-              options={{
-                headerTitle: () => {
-                  return <MainLogo />;
-                },
-              }}
+              options={{headerShown: false}}
             />
-            */}
+          </>
+        ) : checkUser !== null && loadingUser === false ? (
+          <>
             <Stack.Screen
               name="home"
               component={homeScreen}
@@ -318,10 +181,7 @@ const Navigator = () => {
 
   return (
     <NavigationContainer>
-      <AppNavigator />
-      <Modal isVisible={ModalVisible}>
-        <AdvertModal />
-      </Modal>
+      <AppNavigator />      
     </NavigationContainer>
   );
 };

@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Alert,
   ScrollView,
+  StyleSheet,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {
@@ -17,16 +18,35 @@ import styles from '../styles/style';
 import {Input} from 'react-native-elements';
 import {FlatGrid} from 'react-native-super-grid';
 import {getCoures} from '../functions/functions';
+import Modal from 'react-native-modal';
+
+// import Ads
+import BannerAds from '../components/bannerAds';
+import { useRewardedAd } from '@react-native-admob/admob';
 
 // import รูปบ้าน
 import HomeIcon from '../assets/images/icons/HomeIcon.svg';
-import * as couresActions from '../store/actions/coures';
+// import Icon Advert
+import AdvertIcon from '../assets/images/icons/Vector.svg'
 import * as subGradeActions from '../store/actions/subGrade';
+import * as userActions from '../store/actions/user';
 
+const hookOptions = {
+  loadOnDismissed: true,
+  requestOptions: {
+    requestNonPersonalizedAdsOnly: true,
+  },
+};
 const homeScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const [couresData, setcouresData] = useState([]);
   const [newcouresData, setnewcouresData] = useState([]);
+  const privilege = useSelector(state => state.user.userPrivilege)
+  const [privilegeVisible, setprivilegeVisible] = useState(false);
+  const { adLoadError, adLoaded, reward, show } = useRewardedAd(
+    'ca-app-pub-3940256099942544/5224354917',
+    hookOptions,
+  );
   console.log(newcouresData.length);
 
   const GetCouresData = async () => {
@@ -77,6 +97,33 @@ const homeScreen = ({navigation}) => {
     console.log(dataLength + test);
     setnewcouresData(test);
   }, [couresData]);
+  
+
+  const getPrivilege = useCallback(() => {
+    dispatch(userActions.getPrivilege());
+  })
+
+  const savePrivilege = async () => {
+    dispatch(userActions.addPrivilege());
+  };
+
+  useEffect(() => {
+    if (adLoadError) {
+      console.error(adLoadError);
+    }
+  }, [adLoadError]);
+
+  useEffect(() => {
+    if (reward) {
+      console.log(`Reward Earned: ${reward.type}`);
+      savePrivilege();
+    }
+  }, [reward]);
+
+  useEffect(() => {
+    getPrivilege();
+  }, []);
+  
 
   const ContainerContent = () => {
     const gradeHandler = async (couresSelected, couresName) => {
@@ -92,6 +139,75 @@ const homeScreen = ({navigation}) => {
       } else {
         console.log(couresSelected);
       }
+    };
+    const AdvertModal = () => {
+      return (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <View
+            style={[
+              styles.boxOvertime,
+              { backgroundColor: '#1FA246', borderRadius: 15 },
+            ]}>
+            <Text style={[styles.textLight22, {
+              marginTop: 10,
+              textAlign: 'center',
+              color: '#FFFFFF',
+            }]}>
+              ท่านมีสิทธื์ในการดูเฉลยจำนวน
+            </Text>
+            <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+              <Text
+                style={[
+                  styles.textRegular30,
+                  {
+                    textAlign: 'center',
+                    textAlignVertical: 'center',
+                    color: '#D7B641',
+                    marginHorizontal: 5,
+                  },
+                ]}>
+                {privilege}
+              </Text>
+              <Text
+                style={[
+                  styles.textLight22,
+                  {
+                    textAlign: 'center',
+                    textAlignVertical: 'center',
+                    color: '#FFFFFF',
+                    marginHorizontal: 5,
+                  },
+                ]}>
+                สิทธิ์
+              </Text>
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                padding: 10,
+                marginBottom: 5,
+              }}>
+              <TouchableOpacity
+                style={{ alignItems: 'center' }}
+                onPress={() => {
+                  setprivilegeVisible(false);
+                }}>
+                <Text style={[styles.textLight18, pageStyle.overTimeLeft]}>
+                  ยกเลิก
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{ alignItems: 'center' }}
+                onPress={() => show()}>
+                <Text style={[styles.textLight18, pageStyle.overTimeRight]}>
+                  กดดูโฆษณาเพื่อรับสิทธิ์เพิ่ม
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      );
     };
     return (
       <View style={{flex: 1, justifyContent: 'flex-start'}}>
@@ -141,47 +257,7 @@ const homeScreen = ({navigation}) => {
                 );
               })}
             </View>
-          </ScrollView>
-
-          {/*
-          <FlatGrid
-            itemDimension={120}
-            maxDimension={320}
-            data={couresData}
-            style={{marginTop: 5, flex: 1}}
-            spacing={10}
-            renderItem={({item}) => (
-              <TouchableOpacity
-                onPress={() => gradeHandler(item.csubId, item.csubName)}
-                style={{
-                  flex: 1,
-                  borderRadius: 8,
-                  margin: 5,
-                }}>
-                <ImageBackground
-                  style={{flex: 1, justifyContent: 'center'}}
-                  source={require('../assets/images/bg-coures.png')}
-                  resizeMode="stretch">
-                  <Text
-                    style={[
-                      styles.textBold22,
-                      {
-                        textAlign: 'center',
-                        textAlignVertical: 'center',
-                        color: '#fff',
-                        fontWeight: '600',
-                        borderRadius: 8,
-                        padding: 10,
-                        height: 120,
-                      },
-                    ]}>
-                    {item.csubName}
-                  </Text>
-                </ImageBackground>
-              </TouchableOpacity>
-            )}
-          />
-          */}
+          </ScrollView>          
         </View>
         <Text
           style={[
@@ -191,6 +267,21 @@ const homeScreen = ({navigation}) => {
           กลับมาหน้าหลักนี้โดยการกดรูปบ้าน {'\n'}
           <HomeIcon width={26} height={26} /> ด้านบนขวาของแต่ละหน้า
         </Text>
+        <TouchableOpacity
+            style={{
+              margin: 10,
+              padding: 8,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              backgroundColor: '#37565b',
+              borderRadius: 10,
+            }}
+            onPress={() => setprivilegeVisible(!privilegeVisible)}>
+            <AdvertIcon width={26} height={26} />
+            <Text style={[styles.textLight18, { textAlignVertical: 'center', marginLeft: 10, color: '#ffffff' }]}>
+              ดูโฆษณาเพื่อรับสิทธิ์ดูเฉลย
+            </Text>
+          </TouchableOpacity>
         <TouchableOpacity style={{alignItems: 'center'}}>
           <Text
             style={[
@@ -205,6 +296,9 @@ const homeScreen = ({navigation}) => {
             ดาวน์โหลดวิชาอื่น ๆ กดตรงนี้
           </Text>
         </TouchableOpacity>
+        <Modal isVisible={privilegeVisible}>
+          <AdvertModal />
+        </Modal>
       </View>
     );
   };
@@ -225,17 +319,32 @@ const homeScreen = ({navigation}) => {
           </View>
         </View>
       </ImageBackground>
-      <View
-        style={{
-          backgroundColor: '#EEEEEE',
-          height: 50,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Text>Ads Area</Text>
-      </View>
+      <BannerAds />
     </SafeAreaView>
   );
 };
-
+const pageStyle = StyleSheet.create({
+  overTimeLeft: {
+    backgroundColor: '#fff',
+    borderColor: '#D7B641',
+    color: '#D7B641',
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 10,
+    width: 100,
+    textAlignVertical: 'center',
+    textAlign: 'center',
+  },
+  overTimeRight: {
+    backgroundColor: '#D7B641',
+    borderColor: '#FFffff',
+    color: '#fff',
+    borderRadius: 10,
+    borderWidth: 1,
+    padding: 10,
+    flex: 1,
+    textAlignVertical: 'center',
+    textAlign: 'center',
+  },
+});
 export default homeScreen;

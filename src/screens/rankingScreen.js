@@ -16,6 +16,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CommonActions } from '@react-navigation/native';
 
 import * as scoreActions from '../store/actions/score';
+// import Ads
+import BannerAds from '../components/bannerAds';
 
 const rankingScreen = ({ navigation, route }) => {
   const dispatch = useDispatch();
@@ -364,15 +366,7 @@ const rankingScreen = ({ navigation, route }) => {
           </View>
         </View>
       </View>
-      <View
-        style={{
-          backgroundColor: '#EEEEEE',
-          height: 50,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Text>Ads Area</Text>
-      </View>
+      <BannerAds />
     </SafeAreaView>
   );
 };

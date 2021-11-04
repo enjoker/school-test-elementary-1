@@ -126,7 +126,8 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        applicationId "com.tncclever.school_test_elementary_1"
+        applicationId "com.tncclever.testAdsElement1" //<-- ทดสอบ Ads
+        //applicationId "com.tncclever.school_test_elementary_1"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

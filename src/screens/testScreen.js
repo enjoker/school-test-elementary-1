@@ -22,6 +22,8 @@ import { Image, Icon, Avatar, normalize, Card } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import { RadioButton } from 'react-native-paper';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+// import Ads
+import BannerAds from '../components/bannerAds';
 
 const testScreen = ({ navigation, route }) => {
   const { timeOut, level, gradeName, csgId, csgName, gradeId, couresName, timeTestEasy, timeTestMedium, timeTestHard, } = route.params;
@@ -702,15 +704,7 @@ const testScreen = ({ navigation, route }) => {
           </View>
         </Modal>
       </View>
-      <View
-        style={{
-          backgroundColor: '#EEEEEE',
-          height: 50,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Text>Ads Area</Text>
-      </View>
+      <BannerAds />
     </SafeAreaView>
   );
 };
