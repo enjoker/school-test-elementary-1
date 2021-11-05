@@ -32,6 +32,7 @@ const typeScreen = ({navigation, route}) => {
   ]);
 
   useEffect(() => {
+    if(SubGradeDetail.length != 0){
     let test = [];
     let dontUse = [];
     let dataLength = SubGradeDetail.length;
@@ -62,7 +63,13 @@ const typeScreen = ({navigation, route}) => {
       console.log('for dontUse');
       SubGradeDetail.push(dontUse[k]);
     }
+    //SubGradeDetail.push(test.concat(dontUse))
     setnewSubGradeDetail(test);
+  }else{
+    Alert.alert('แจ้งเตือน', 'ระดับชั้นนี้ยังไม่มีข้อสอบ', [
+      { text: 'ยืนยัน', onPress: () => navigation.navigate('home') },
+    ]);
+  }
   }, [SubGradeDetail]);
 
   const ContainerContent = () => {
