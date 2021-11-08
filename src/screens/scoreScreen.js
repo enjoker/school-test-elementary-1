@@ -114,7 +114,7 @@ const scoreScreen = ({ navigation, route }) => {
     })
     : null;
 
-  const toggleModal = (index, answerResult,status) => {
+  const toggleModal = (index, answerResult, status) => {
     if (status == false) {
       if (privilege != '0') {
         setselectedQuestion({ index, answerResult });
@@ -250,8 +250,8 @@ const scoreScreen = ({ navigation, route }) => {
             allQuestions[selectedQuestion.index].examPicAnswer !==
             '' ? (
             <View style={{ marginVertical: 5 }}>
-              <ImageModal              
-                modalImageResizeMode='contain'              
+              <ImageModal
+                modalImageResizeMode='contain'
                 imageBackgroundColor="#ffffff"
                 style={{ width: 100, height: 100 }}
                 source={{
@@ -308,7 +308,7 @@ const scoreScreen = ({ navigation, route }) => {
               <Text style={[styles.textMedium14, pageStyle.closeModal]}>
                 กลับ
               </Text>
-            </TouchableOpacity>            
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -384,22 +384,22 @@ const scoreScreen = ({ navigation, route }) => {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>        
+        </View>
       </View>
     );
   };
   const AdvertModal2 = () => {
     return (
-      <View style={{ flex: 1, justifyContent: 'center' }}>        
-         <View
+      <View style={{ flex: 1, justifyContent: 'center' }}>
+        <View
           style={[
             styles.boxOvertime,
-            {backgroundColor: '#D84315', borderRadius: 15},
+            { backgroundColor: '#D84315', borderRadius: 15 },
           ]}>
           <Text
             style={[
               styles.textLight22,
-              {marginTop: 10, padding: 10, textAlign: 'center',color:'#FFFFFF'},
+              { marginTop: 10, padding: 10, textAlign: 'center', color: '#FFFFFF' },
             ]}>
             สิทธิ์ในการดูเฉลยของท่านเหลือ 0
           </Text>
@@ -408,10 +408,10 @@ const scoreScreen = ({ navigation, route }) => {
               flexDirection: 'row',
               justifyContent: 'space-around',
               padding: 10,
-              marginBottom:10
+              marginBottom: 10
             }}>
             <TouchableOpacity
-              style={{alignItems: 'center'}}
+              style={{ alignItems: 'center' }}
               onPress={() => {
                 setprivilegeVisible2(false);
               }}>
@@ -427,7 +427,7 @@ const scoreScreen = ({ navigation, route }) => {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>        
+        </View>
       </View>
     );
   };
@@ -1024,7 +1024,7 @@ const scoreScreen = ({ navigation, route }) => {
                                     subid: csgId,
                                     gradeid: gradeId,
                                     csgName: csgName,
-                                    couresName:couresName,
+                                    couresName: couresName,
                                   },
                                 },
                               ],
