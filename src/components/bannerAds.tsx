@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BannerAd, BannerAdSize } from '@react-native-admob/admob';
 
 const BannerAds = () => {
    return (
       <BannerAd
          size={BannerAdSize.ADAPTIVE_BANNER}
-         unitId={'ca-app-pub-3940256099942544/6300978111'}
-         // unitId={'ca-app-pub-3940256099942544/6300978111'} <-- ads จริง
+         unitId={'ca-app-pub-1678137107426089/2647126941'}
          onAdFailedToLoad={(error) => console.error(error)}
       />
    )

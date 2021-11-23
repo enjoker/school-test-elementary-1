@@ -2,12 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
-  ImageBackground,
   TouchableOpacity,
   SafeAreaView,
   ScrollView,
   Dimensions,
   StyleSheet,
+  Alert
 } from 'react-native';
 import {
   heightPercentageToDP as hp,
@@ -16,20 +16,32 @@ import {
 import styles from '../styles/style';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-native-modal';
-import { Image, Icon, Avatar, normalize, Card } from 'react-native-elements';
+import { Image } from 'react-native-elements';
 import { CommonActions } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ImageModal from 'react-native-image-modal';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+// import Components
+import Loading from '../components/loading';
+
 // import Icon Advert
 import AdvertIcon from '../assets/images/icons/Vector.svg';
+
 // import Ads
 import BannerAds from '../components/bannerAds';
 import { useRewardedAd } from '@react-native-admob/admob';
+import { AdmobRewardId, adsWaitingTime } from '../utilities/functions';
+
 // import Actions
 import * as scoreActions from '../store/actions/score';
 import * as userActions from '../store/actions/user';
-import userReducer from '../store/reducers/user';
+
+dayjs.extend(utc)
 
 const hookOptions = {
+  loadOnMounted: false,
   loadOnDismissed: true,
   requestOptions: {
     requestNonPersonalizedAdsOnly: true,
@@ -71,12 +83,17 @@ const scoreScreen = ({ navigation, route }) => {
   const [sumScore, setsumScore] = useState(0);
   const [newChoiceSelected, setnewChoiceSelected] = useState(choiceSelected);
   const [usePrivilegeStatus, setUsePrivilegeStatus] = useState(false)
-  const { adLoadError, adLoaded, reward, show } = useRewardedAd(
-    'ca-app-pub-3940256099942544/5224354917',
-    hookOptions,
-  );
+  const { adLoadError, adLoaded, reward, show, load } = useRewardedAd(AdmobRewardId, hookOptions);
+
+  // Ads Time
+  const [adsTimeStamp, setadsTimeStamp] = useState()
+  const [adsTime, setAdsTime] = useState(0)
+
   const savePrivilege = async () => {
+    const dateNow = dayjs.utc().local().format();
+    await AsyncStorage.setItem('adsTime', dateNow.toString());
     dispatch(userActions.addPrivilege());
+    setprivilegeVisible2(false);
   };
 
   const usePrivilege = async () => {
@@ -86,9 +103,36 @@ const scoreScreen = ({ navigation, route }) => {
     }
   };
 
+  const checkAdsTime = async () => {
+    try {
+      const adsDateTime = await AsyncStorage.getItem('adsTime');
+      setadsTimeStamp(adsDateTime)
+    } catch (error) {
+      console.log('Not have Ads Timestamp')
+    }
+  }
+
+  const showRewardAds = () => {
+    if (!adLoaded) {
+      console.log('Ads loading')
+      load()
+    }
+    setprivilegeVisible(true)
+  }
+
   useEffect(() => {
     if (adLoadError) {
       console.error(adLoadError);
+      Alert.alert(
+        "แจ้งเตือน",
+        "ไม่สามารถโหลดโฆษณาได้ในขณะนี้",
+        [
+          {
+            text: "ตกลง",
+            onPress: () => setprivilegeVisible(false),
+          },
+        ]
+      )
     }
   }, [adLoadError]);
 
@@ -96,7 +140,6 @@ const scoreScreen = ({ navigation, route }) => {
     if (reward) {
       console.log(`Reward Earned: ${reward.type}`);
       savePrivilege();
-      setprivilegeVisible(false)
     }
   }, [reward]);
 
@@ -115,12 +158,15 @@ const scoreScreen = ({ navigation, route }) => {
     : null;
 
   const toggleModal = (index, answerResult, status) => {
+    if (!adLoaded) {
+      console.log('Ads loading')
+      load()
+    }
     if (status == false) {
       if (privilege != '0') {
         setselectedQuestion({ index, answerResult });
         setmodalVisible(!ModalVisible);
         usePrivilege();
-        // setUsePrivilegeStatus(true);
       } else if (usePrivilegeStatus && privilege == 0) {
         setselectedQuestion({ index, answerResult });
         setmodalVisible(!ModalVisible);
@@ -135,8 +181,11 @@ const scoreScreen = ({ navigation, route }) => {
 
   const sendScore = useCallback(() => {
     let rankingScore = 0;
-    const levelBonus =
-      level === 1 ? 1 : level === 3 ? 1.1 : level === 4 ? 1.2 : null;
+    const levelBonus = level === 1 ?
+      1
+      : level === 3 ? 1.1
+        : level === 4 ? 1.2
+          : null;
     if (correctAnswerCount >= (questionCount * 80) / 100 && overTimePlus == 0) {
       rankingScore =
         Math.round(
@@ -152,15 +201,6 @@ const scoreScreen = ({ navigation, route }) => {
           1000,
         ) / 1000;
     }
-    /*if (timeLeft > 299) {
-      rankingScore += 1;
-    } else if (timeLeft === 0) {
-      if (correctAnswerCount === 0) {
-        rankingScore = 0;
-      } else {
-        rankingScore -= 1;
-      }
-    }*/
     if (!sendScoreStatus) {
       dispatch(
         scoreActions.sendScore(
@@ -177,8 +217,21 @@ const scoreScreen = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
+    checkAdsTime();
+  }, [privilege]);
+
+  useEffect(() => {
     sendScore();
   }, []);
+
+  useEffect(() => {
+    if (adsTimeStamp) {
+      const timeNow = dayjs.utc().local().format();
+      const findSecond = dayjs(timeNow) - dayjs(adsTimeStamp);
+      const timeSec = findSecond / 1000;
+      setAdsTime(timeSec)
+    }
+  }, [adsTimeStamp, privilegeVisible, privilegeVisible2])
 
   useEffect(() => {
     if (correctAnswerCount != 0 || wrongAnswerCount != 0) {
@@ -197,6 +250,7 @@ const scoreScreen = ({ navigation, route }) => {
       setshowLevel(false);
     }
   }, [csgName]);
+
   useEffect(() => {
     if (level == 1) {
       setscoreLevel(1);
@@ -206,6 +260,7 @@ const scoreScreen = ({ navigation, route }) => {
       setscoreLevel(1.2);
     }
   }, [level]);
+
   useEffect(() => {
     if (correctAnswerCount >= (questionCount * 80) / 100 && overTimePlus == 0) {
       setsumScore(
@@ -231,13 +286,7 @@ const scoreScreen = ({ navigation, route }) => {
     const answerIndex = selectedQuestion.index;
     return (
       <View style={{ flex: 1, justifyContent: 'center' }}>
-        <View
-          style={[
-            styles.boxETC,
-            answerResult
-              ? { backgroundColor: '#63EF71' }
-              : { backgroundColor: '#FFD84E' },
-          ]}>
+        <View style={[styles.boxETC, { borderBottomWidth: 1, backgroundColor: answerResult ? '#63EF71' : '#fbffc0' }]}>
           <Text
             style={[
               styles.textMedium18,
@@ -376,10 +425,19 @@ const scoreScreen = ({ navigation, route }) => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
+              disabled={adsTime > adsWaitingTime || !adsTimeStamp ? false : true}
               style={{ alignItems: 'center' }}
               onPress={() => show()}>
-              <Text style={[styles.textLight18, pageStyle.overTimeRight]}>
-                กดดูโฆษณาเพื่อรับสิทธิ์เพิ่ม
+              <Text style={[
+                styles.textLight18,
+                pageStyle.overTimeRight,
+                adsTime > adsWaitingTime || !adsTimeStamp ? { backgroundColor: '#D7B641' } : { backgroundColor: '#999999', borderWidth: 0 }
+              ]}>
+                {
+                  adsTime > adsWaitingTime || !adsTimeStamp ?
+                    'ดูโฆษณาเพื่อรับสิทธิ์เพิ่ม'
+                    : 'ดูโฆษณาได้ใน ' + (adsWaitingTime - adsTime) + ' วิ'
+                }
               </Text>
             </TouchableOpacity>
           </View>
@@ -419,10 +477,19 @@ const scoreScreen = ({ navigation, route }) => {
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
+              disabled={adsTime > adsWaitingTime || !adsTimeStamp ? false : true}
               style={{ alignItems: 'center' }}
               onPress={() => { show(); setprivilegeVisible2(false); }}>
-              <Text style={[styles.textLight18, pageStyle.overTimeRight]}>
-                กดดูโฆษณาเพื่อรับ 2 สิทธิ์
+              <Text style={[
+                styles.textLight18,
+                pageStyle.overTimeRight,
+                adsTime > adsWaitingTime || !adsTimeStamp ? { backgroundColor: '#D7B641' } : { backgroundColor: '#999999', borderWidth: 0 }
+              ]}>
+                {
+                  adsTime > adsWaitingTime || !adsTimeStamp ?
+                    'กดดูโฆษณาเพื่อรับ 2 สิทธิ์'
+                    : 'ดูโฆษณาได้ใน ' + (adsWaitingTime - adsTime) + ' วิ'
+                }
               </Text>
             </TouchableOpacity>
           </View>
@@ -931,7 +998,7 @@ const scoreScreen = ({ navigation, route }) => {
                       backgroundColor: '#37565b',
                       borderRadius: 10,
                     }}
-                    onPress={() => setprivilegeVisible(!privilegeVisible)}>
+                    onPress={() => showRewardAds()}>
                     <AdvertIcon width={26} height={26} />
                     <Text style={[styles.textLight18, { textAlignVertical: 'center', marginLeft: 10, color: '#ffffff' }]}>
                       ดูโฆษณาเพื่อรับสิทธิ์ดูเฉลย
@@ -1057,15 +1124,13 @@ const scoreScreen = ({ navigation, route }) => {
                 <Modal isVisible={ModalVisible}>
                   <AnswerModal />
                 </Modal>
-                <Modal isVisible={privilegeVisible}>
+                <Modal isVisible={privilegeVisible && adLoaded}>
                   <AdvertModal />
                 </Modal>
-                <Modal isVisible={privilegeVisible2}>
+                <Modal isVisible={privilegeVisible2 && adLoaded}>
                   <AdvertModal2 />
                 </Modal>
-                {/* <Modal isVisible={isWrongModalVisible}>
-                <WrongModel />
-              </Modal> */}
+                <Loading isModalVisible={privilegeVisible && !adLoaded || privilegeVisible2 && !adLoaded} />
               </View>
             </ScrollView>
           </View>
@@ -1131,7 +1196,7 @@ const pageStyle = StyleSheet.create({
     flex: 1,
     textAlignVertical: 'center',
     textAlign: 'center',
-  },
+  }
 });
 
 export default scoreScreen;
